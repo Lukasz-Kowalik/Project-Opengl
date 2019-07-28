@@ -29,10 +29,13 @@ void TextureLoad() {
 void TurnOnLight0() {
 	glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
 	glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, light0_direction);
-
+	
 	glLightModeli(GL_LIGHT_MODEL_AMBIENT, light0Status);
-
-	glColorMaterial(GL_FRONT, GL_AMBIENT);
+	/*glEnable(GL_COLOR_MATERIAL);
+	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT);
+	glColorMaterial(GL_FRONT, GL_DIFFUSE);
+	glColorMaterial(GL_FRONT, GL_SPECULAR);
+	glDisable(GL_COLOR_MATERIAL);*/
 	glutPostRedisplay();
 }
 void TurnOnLight1() {
@@ -46,7 +49,7 @@ void TurnOnLight1() {
 	glLightModeli(GL_LIGHT_MODEL_AMBIENT, light1Status);
 
 	/*glColorMaterial(GL_FRONT, GL_SPECULAR);*/
-	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT);
+	//glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT);
 	/*glColorMaterial(GL_FRONT_AND_BACK, GL_DIFFUSE);*/
 	glutPostRedisplay();
 }
@@ -297,21 +300,26 @@ void DrawLights() {
 		glDisable(GL_LIGHTING);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	
 		glScalef(sacale, sacale, sacale);
 		glTranslatef(startPositionX + i * LIGHT_MULTIPLAYER, -0.3f, dystanceZ);
-		glEnable(GL_DEPTH_TEST);
 		glColor4fv(LightGoldenrodYellow2);
 		glTranslatef(0.3f, -0.5f, -0.5f);
 		glutSolidSphere(0.15, 20, 20);
 		glDisable(GL_BLEND);
-		glEnable(GL_LIGHTING);
+
 		glPopMatrix();
 		glPushMatrix();
+		glEnable(GL_COLOR_MATERIAL);
+
+		glColor3fv(DarkGray);
 		glScalef(sacale, sacale, sacale);
 		glTranslatef(startPositionX + 0.3f + i * LIGHT_MULTIPLAYER, -1.7f, dystanceZ - 0.5f);
-		glColor3fv(Gray);
 		glScaled(0.2, 3, 0.15);
 		glutSolidCube(0.5);
+
+		glDisable(GL_COLOR_MATERIAL);
+		glEnable(GL_LIGHTING);
 		glPopMatrix();
 	}
 }
