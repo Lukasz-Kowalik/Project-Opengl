@@ -29,13 +29,8 @@ void TextureLoad() {
 void TurnOnLight0() {
 	glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
 	glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, light0_direction);
-	
+
 	glLightModeli(GL_LIGHT_MODEL_AMBIENT, light0Status);
-	/*glEnable(GL_COLOR_MATERIAL);
-	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT);
-	glColorMaterial(GL_FRONT, GL_DIFFUSE);
-	glColorMaterial(GL_FRONT, GL_SPECULAR);
-	glDisable(GL_COLOR_MATERIAL);*/
 	glutPostRedisplay();
 }
 void TurnOnLight1() {
@@ -313,12 +308,10 @@ void DrawLights() {
 
 		glPopMatrix();
 		glPushMatrix();
-		glEnable(GL_COLOR_MATERIAL);
-
-		glColor3fv(DarkGray);
 		glScalef(sacale, sacale, sacale);
 		glTranslatef(startPositionX + 0.3f + i * LIGHT_MULTIPLAYER, -1.7f, dystanceZ - 0.5f);
 		glScaled(0.2, 3, 0.15);
+		glColor3fv(DarkGray);
 		glutSolidCube(0.5);
 
 		glDisable(GL_COLOR_MATERIAL);
