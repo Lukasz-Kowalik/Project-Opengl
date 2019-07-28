@@ -282,6 +282,7 @@ void DrawHouse() {
 	glVertex3f(-x, y, z);
 	glEnd();
 	glDisable(GL_TEXTURE_2D);
+	glEnable(GL_COLOR_MATERIAL);
 	glColor3fv(Gray);
 	glBegin(GL_QUADS);
 	glVertex3f(x, -y, z);
@@ -289,6 +290,7 @@ void DrawHouse() {
 	glVertex3f(-x, -y, -z);
 	glVertex3f(x, -y, -z);
 	glEnd();
+	glDisable(GL_COLOR_MATERIAL);
 	glPopMatrix();
 }
 void DrawLights() {
