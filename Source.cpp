@@ -124,7 +124,7 @@ void DrawGrass() {
 }
 void DrawBody() {
 	float xr = 1.0f, xl = -1.0f, x2r = 0.4f, yu = 1.0f, yd = 0.1f, y2u = 1.4f, zf = 0.0f, zb = -0.75f;
-
+	glColor3fv(Yellow);
 	glPushMatrix();
 
 	glTranslatef(0, -1, 0);
@@ -197,7 +197,7 @@ void DrawCar() {
 	glPushMatrix();
 	glTranslatef(2, -0.45f, -2);
 	glScalef(scale, scale, scale);
-	glColor3fv(Yellow);
+
 	DrawBody();
 	//glColor3fv(White);
 
@@ -407,7 +407,7 @@ void Display()
 
 	glFlush();
 	glDisable(GL_LIGHTING);
-	glDisable(GL_DEPTH_TEST);
+	glDisable(GL_DEPTH);
 	glutSwapBuffers();
 }
 
