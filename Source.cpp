@@ -297,8 +297,9 @@ void DrawLights() {
 		glPushMatrix();
 		glDisable(GL_LIGHTING);
 		glEnable(GL_BLEND);
+		glEnable(GL_COLOR_MATERIAL);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	
+
 		glScalef(sacale, sacale, sacale);
 		glTranslatef(startPositionX + i * LIGHT_MULTIPLAYER, -0.3f, dystanceZ);
 		glColor4fv(LightGoldenrodYellow2);
