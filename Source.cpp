@@ -427,7 +427,8 @@ void Display()
 
 	// skierowanie poleceñ do wykonania
 	glFlush();
-
+	glDisable(GL_DEPTH_TEST);
+	glDisable(GL_LIGHTING);
 	// zamiana buforów koloru
 	glutSwapBuffers();
 }
