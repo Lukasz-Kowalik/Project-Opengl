@@ -618,7 +618,7 @@ int main(int argc, char* argv[])
 	// rozmiary glownego okna programu
 	glutInitWindowSize(WINOWO_WIDTH, WINDOW_HEIGHT);
 	// utworzenie glownego okna programu
-	glutCreateWindow("Lab7");
+	glutCreateWindow("Projekt £ukasz Kowalik");
 	TextureLoad();
 	glColor3fv(DimGray);
 
