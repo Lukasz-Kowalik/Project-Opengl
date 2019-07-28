@@ -404,8 +404,11 @@ void projectionPerspective(int width, int height) {
 
 void Display()
 {
+	glpApplyCameraTransform(&frameCamera);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_DEPTH_TEST);
 	// kolor t³a - zawartoœæ bufora koloru
-	glClearColor(0, 0, 0, 0);
+	glClearColor(0.25, 0.25, 0.25, 0.25);
 
 	// czyszczenie bufora koloru
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
