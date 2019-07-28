@@ -193,6 +193,7 @@ void DrawBody() {
 	glVertex3f(xr, yu, zf);
 
 	glEnd();
+	glDisable(GL_COLOR_MATERIAL);
 	glPopMatrix();
 }
 void DrawCar() {
