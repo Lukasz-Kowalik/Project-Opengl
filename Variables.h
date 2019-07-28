@@ -26,7 +26,7 @@ enum projection {
 enum lights { L0ON, L0OFF, L1ON, L1OFF};
 enum state{O,F};
 lights light0Status = L0OFF;
-GLfloat light0_position[] = { 0,-0.1, -1, 0.5 };
+GLfloat light0_position[] = { 0,-0.1f, -1, 0.5f };
 GLfloat light0_direction[]={0,1,0};
 
 lights light1Status = L1OFF;

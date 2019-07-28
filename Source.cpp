@@ -201,7 +201,7 @@ void DrawBody() {
 void DrawCar() {
 	const GLfloat scale = 0.5;
 	glPushMatrix();
-	glTranslatef(2, -0.45, -2);
+	glTranslatef(2, -0.45f, -2);
 	glScalef(scale, scale, scale);
 	glColor3fv(Yellow);
 	DrawBody();
@@ -294,8 +294,8 @@ void DrawHouse() {
 	glPopMatrix();
 }
 void DrawLights() {
-	GLfloat startPositionX = -8.3, startPositionY = -7.5;
-	GLfloat sacale = 0.4, dystanceZ = -7.5;
+	GLfloat startPositionX = -8.3f, startPositionY = -7.5f;
+	GLfloat sacale = 0.4f, dystanceZ = -7.5f;
 
 	for (size_t i = 0; i < countOfLights; i++)
 	{
@@ -308,13 +308,13 @@ void DrawLights() {
 		glEnable(GL_DEPTH_TEST);
 		glColor4fv(LightGoldenrodYellow2);
 		glTranslatef(0.3f, -0.5f, -0.5f);
-		glutSolidSphere(0.15, 20.0f, 20.0f);
+		glutSolidSphere(0.15, 20, 20);
 		glDisable(GL_BLEND);
 		glEnable(GL_LIGHTING);
 		glPopMatrix();
 		glPushMatrix();
 		glScalef(sacale, sacale, sacale);
-		glTranslatef(startPositionX + 0.3f + i * LIGHT_MULTIPLAYER, -1.7f, dystanceZ - 0.5);
+		glTranslatef(startPositionX + 0.3f + i * LIGHT_MULTIPLAYER, -1.7f, dystanceZ - 0.5f);
 		glColor3fv(Gray);
 		glScaled(0.2, 3, 0.15);
 		glutSolidCube(0.5);
@@ -326,7 +326,7 @@ void Draw() {
 	DrawRoad();
 	glPushMatrix();
 
-	glutSolidSphere(0.15, 20.0f, 20.0f);
+	glutSolidSphere(0.15, 20, 20);
 	glPopMatrix();
 	DrawHouse();
 	DrawCar();
