@@ -63,7 +63,6 @@ const char* textureFile[AMOUNT_OF_TEXTURES] = { "textures/brickwall.tga","textur
 
 //variables begin
 int Aspect = FULL_WINDOW;
-int depthStatuse = ON;
 //projection
 projection activeProjection = perspective;
 GLdouble FOV = 90;

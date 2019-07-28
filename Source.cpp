@@ -366,17 +366,8 @@ void SetLights(unsigned char key) {
 		break;
 	}
 }
-void DepthMenu(int depth) {
-	if (depth == OFF)
-	{
-		depthStatuse = OFF;
-	}
-	else {
-		depthStatuse = ON;
-	}
-}
-//projection begin
 
+//projection begin
 void projectionFrustrum(int width, int height)
 {
 	// parametry bry³y obcinania
@@ -580,21 +571,11 @@ void MainMenu() {
 	glutAddMenuEntry("Perspektywiczne Frustum", frustum);
 	glutAddMenuEntry("Perspektywiczne Perspective", perspective);
 #endif
-	//-----------------Depth---------------------
-	int  depthMenu = glutCreateMenu(DepthMenu);
-#ifdef WIN32
-	glutAddMenuEntry("Wloncz", ON);
-	glutAddMenuEntry("Wyloncz", OFF);
-
-#else
-	glutAddMenuEntry("Wloncz", ON);
-	glutAddMenuEntry("Wyloncz", OFF);
-#endif
 	//--------------------------MAIN_MENU------------
 	glutCreateMenu(Menu);
 	glutAddSubMenu("Skala obrazu", menuAspect);
 	glutAddSubMenu("Rzutowanie obrazu", menuactiveProjection);
-	glutAddSubMenu("Testowanie glembi", depthMenu);
+	//glutAddSubMenu("Testowanie glembi", depthMenu);
 #ifdef WIN32
 	glutAddMenuEntry("Wyjscie", EXIT);
 #else
@@ -620,7 +601,7 @@ int main(int argc, char* argv[])
 	// utworzenie glownego okna programu
 	glutCreateWindow("Projekt £ukasz Kowalik");
 	TextureLoad();
-	glColor3fv(DimGray);
+
 
 	glpInitFrame(&frameCamera);
 
