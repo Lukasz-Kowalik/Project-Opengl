@@ -80,10 +80,10 @@ const char* Info = R"(
 						STEROWANIE
 		  	-----------------------------------------------------------------
 		  				 -Strzalki-
-		  		->	Lewo/Prawo - ruch kamery
-		  		->	Gora/Dol - obrot sceny
+		  		->	Lewo/Prawo/Gora/Dol - ruch kamery
 
 		  				-Klawiatura-
+				-> +/- - 
 		  		-> 1-2 - wl/wyl oswietlenie 1-2
 
 						   -MYSZ-
