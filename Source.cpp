@@ -457,7 +457,10 @@ void Reshape(int width, int height) {
 // obsluga menu podrecznego
 void Menu(int value)
 {
-	if (value == EXIT) exit(0);
+	if (value == EXIT) {
+		glDeleteTextures(AMOUNT_OF_TEXTURES, textures);
+		exit(0);
+	}
 }
 void MouseButton(int button, int state, int x, int y)
 {
@@ -635,9 +638,7 @@ int main(int argc, char* argv[])
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
 	// wprowadzenie programu do obslugi petli komunikatow
 	glutMainLoop();
-	/*delete light0Array;
-	delete light1Array;*/
-	glDisable(GL_LIGHTING);
+
 	return 0;
 }
 
