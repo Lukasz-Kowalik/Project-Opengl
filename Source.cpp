@@ -6,15 +6,15 @@
 
 #include "stdafx.h"
 #include "Variables.h"
-#include "Source.h"
+
 void TextureLoad() {
 	glEnable(GL_TEXTURE_2D);
-	glGenTextures(LICZBA_OB_TEXTUR, textures);
+	glGenTextures(AMOUNT_OF_TEXTURES, textures);
 	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-	for (int i = 0; i < LICZBA_OB_TEXTUR; i++)
+	for (int i = 0; i < AMOUNT_OF_TEXTURES; i++)
 	{
 		GLubyte* pBytes;
 		GLint iWidth, iHeight, iComponents;
@@ -404,12 +404,12 @@ void projectionPerspective(int width, int height) {
 
 void Display()
 {
-	glpApplyCameraTransform(&frameCamera);
 	glEnable(GL_LIGHTING);
 	glEnable(GL_DEPTH_TEST);
 	// kolor t³a - zawartoœæ bufora koloru
 	glClearColor(0.25, 0.25, 0.25, 0.25);
 
+	glpApplyCameraTransform(&frameCamera);
 	// czyszczenie bufora koloru
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
