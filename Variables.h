@@ -2,7 +2,7 @@
 
 #define WINOWO_WIDTH  600
 #define WINDOW_HEIGHT  600
-#define LICZBA_OB_TEXTUR 4
+#define AMOUNT_OF_TEXTURES 4
 #define WALL 0
 #define WALL2 1
 #define ROAD 2
@@ -58,8 +58,8 @@ GLPVector3 bezCienia[3] = { {0.0f, -50.5f,  0.0f},
 //camera
 GLPFrame frameCamera;
 //textures
-GLuint textures[LICZBA_OB_TEXTUR];
-const char* textureFile[LICZBA_OB_TEXTUR] = { "textures/brickwall.tga","textures/brickwall2.tga","textures/road.tga","textures/grass.tga" };
+GLuint textures[AMOUNT_OF_TEXTURES];
+const char* textureFile[AMOUNT_OF_TEXTURES] = { "textures/brickwall.tga","textures/brickwall2.tga","textures/road.tga","textures/grass.tga" };
 
 //variables begin
 int Aspect = FULL_WINDOW;
