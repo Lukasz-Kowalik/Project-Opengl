@@ -316,20 +316,17 @@ void DrawLights() {
 	}
 }
 void Draw() {
-	glPushMatrix();
 	DrawGrass();
 	DrawRoad();
-	glPushMatrix();
 
 	glutSolidSphere(0.15, 20, 20);
-	glPopMatrix();
+
 	DrawHouse();
 	DrawCar();
-	//DrawLights();
+	DrawLights();
 
-	//TurnOnLight0();
-	//TurnOnLight1();
-	glPopMatrix();
+	TurnOnLight0();
+	TurnOnLight1();
 }
 void SetLights(unsigned char key) {
 	switch (key)
