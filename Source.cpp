@@ -27,20 +27,15 @@ void TextureLoad() {
 }
 
 void TurnOnLight0() {
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
 	glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
 	glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, light0_direction);
 
 	glLightModeli(GL_LIGHT_MODEL_AMBIENT, light0Status);
 
 	glColorMaterial(GL_FRONT, GL_AMBIENT);
-	glPopMatrix();
 	glutPostRedisplay();
 }
 void TurnOnLight1() {
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
 	glLightfv(GL_LIGHT1, GL_POSITION, light1_position);
 	glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, light1_direction);
 	glLightfv(GL_LIGHT1, GL_DIFFUSE, powerfulLight);
@@ -53,12 +48,11 @@ void TurnOnLight1() {
 	/*glColorMaterial(GL_FRONT, GL_SPECULAR);*/
 	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT);
 	/*glColorMaterial(GL_FRONT_AND_BACK, GL_DIFFUSE);*/
-	glPopMatrix();
 	glutPostRedisplay();
 }
 
 void DrawWheel(GLfloat radiuse, GLfloat shiftByX, GLfloat shiftByY) {
-	GLfloat x, y, angle; /* przesuniecie_x = -0.4, przesuniecie_y = 0;*/
+	GLfloat x, y, angle;
 	glPushMatrix();
 	glBegin(GL_TRIANGLE_FAN);
 	for (angle = 0.0f; angle < (2.0f * GL_PI);
@@ -322,6 +316,7 @@ void DrawLights() {
 	}
 }
 void Draw() {
+	glPushMatrix();
 	DrawGrass();
 	DrawRoad();
 	glPushMatrix();
@@ -330,10 +325,11 @@ void Draw() {
 	glPopMatrix();
 	DrawHouse();
 	DrawCar();
-	DrawLights();
+	//DrawLights();
 
-	TurnOnLight0();
-	TurnOnLight1();
+	//TurnOnLight0();
+	//TurnOnLight1();
+	glPopMatrix();
 }
 void SetLights(unsigned char key) {
 	switch (key)
@@ -428,10 +424,7 @@ void Reshape(int width, int height) {
 	// obszar renderingu - ca³e okno
 	glViewport(0, 0, width, height);
 
-	// wybór macierzy rzutowania
 	glMatrixMode(GL_PROJECTION);
-
-	// macierz rzutowania = macierz jednostkowa
 	glLoadIdentity();
 
 	if (frustum == activeProjection)
@@ -575,7 +568,6 @@ void MainMenu() {
 	glutCreateMenu(Menu);
 	glutAddSubMenu("Skala obrazu", menuAspect);
 	glutAddSubMenu("Rzutowanie obrazu", menuactiveProjection);
-	//glutAddSubMenu("Testowanie glembi", depthMenu);
 #ifdef WIN32
 	glutAddMenuEntry("Wyjscie", EXIT);
 #else
@@ -592,21 +584,19 @@ void static Controls(bool t = true) {
 int main(int argc, char* argv[])
 {
 	Controls();
-	// inicjalizacja biblioteki GLUT
+
 	glutInit(&argc, argv);
-	// inicjalizacja bufora ramki
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-	// rozmiary glownego okna programu
+
 	glutInitWindowSize(WINOWO_WIDTH, WINDOW_HEIGHT);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 	// utworzenie glownego okna programu
 	glutCreateWindow("Projekt £ukasz Kowalik");
-	TextureLoad();
-
 
 	glpInitFrame(&frameCamera);
+	TextureLoad();
 
-	glutDisplayFunc(Display);
 	glutReshapeFunc(Reshape);
+	glutDisplayFunc(Display);
 
 	glutMouseFunc(MouseButton);
 	glutMotionFunc(MouseMotion);
