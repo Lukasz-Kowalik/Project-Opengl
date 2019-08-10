@@ -46,17 +46,24 @@ void TurnOnLight1() {
 	glutPostRedisplay();
 }
 
-void DrawWheel(GLfloat radiuse, GLfloat shiftByX, GLfloat shiftByY) {
-	GLfloat x, y, angle;
+void DrawWheels() {
 	glPushMatrix();
-	glBegin(GL_TRIANGLE_FAN);
-	for (angle = 0.0f; angle < (2.0f * GL_PI);
-		angle += (GL_PI / 32.0f))
-	{
-		x = radiuse * sin(angle) + shiftByX;
-		y = radiuse * cos(angle) + shiftByY;
-		glVertex2f(x, y);
-	}glEnd();
+	glEnable(GL_COLOR_MATERIAL);
+	glColor3fv(Gray);
+	
+	glTranslatef(-0.5, -0.86, -0.5);
+	glutSolidSphere(0.25, 10, 10);
+
+	glTranslatef(0, 0, 0.4);
+	glutSolidSphere(0.25, 10, 10);
+
+	glTranslatef(1, 0, 0);
+	glutSolidSphere(0.25, 10, 10);
+
+	glTranslatef(0, 0, -0.4);
+	glutSolidSphere(0.25, 10, 10);
+
+	glDisable(GL_COLOR_MATERIAL);
 	glPopMatrix();
 }
 void DrawRoad() {
@@ -195,10 +202,8 @@ void DrawCar() {
 	glScalef(scale, scale, scale);
 
 	DrawBody();
-
-	//glTranslatef(0, 0, -1.3);
-	//DrawWheel(0.2,-0.4,0);
-	//glTranslatef(0, 0, +1.3);
+	DrawWheels();
+	
 	glPopMatrix();
 }
 void DrawHouse() {
