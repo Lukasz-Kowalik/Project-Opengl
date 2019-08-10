@@ -39,13 +39,10 @@ void TurnOnLight1() {
 	glLightfv(GL_LIGHT1, GL_DIFFUSE, powerfulLight);
 	//glLightfv(GL_LIGHT1, GL_SPECULAR, light1_specular);
 
-	glLightf(GL_LIGHT1, GL_SPOT_CUTOFF, 45.0);
+	glLightf(GL_LIGHT1, GL_SPOT_CUTOFF, 35.0);
 	glLightf(GL_LIGHT1, GL_SPOT_EXPONENT, 0.5);
 	glLightModeli(GL_LIGHT_MODEL_AMBIENT, light1Status);
 
-	/*glColorMaterial(GL_FRONT, GL_SPECULAR);*/
-	//glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT);
-	/*glColorMaterial(GL_FRONT_AND_BACK, GL_DIFFUSE);*/
 	glutPostRedisplay();
 }
 
