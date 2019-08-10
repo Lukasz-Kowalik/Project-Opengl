@@ -12,3 +12,4 @@
 #include "glext.h"
 #include "glpomoc.h"
 #include "biblioteka.h"
+#include "materials.h"
