@@ -198,7 +198,6 @@ void DrawCar() {
 	glScalef(scale, scale, scale);
 
 	DrawBody();
-	//glColor3fv(White);
 
 	//glTranslatef(0, 0, -1.3);
 	//DrawWheel(0.2,-0.4,0);
@@ -567,14 +566,14 @@ void MainMenu() {
 }
 void static Controls(bool t = true) {
 	if (t) {
-		FreeConsole();
+		std::cout << Info;
 		return;
 	}
-	std::cout << Info;
+	FreeConsole();
 }
 int main(int argc, char* argv[])
 {
-	Controls();
+	Controls(false);
 
 	glutInit(&argc, argv);
 

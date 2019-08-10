@@ -24,20 +24,21 @@ enum projection {
 };
 //light
 enum lights { L0ON, L0OFF, L1ON, L1OFF};
-enum state{O,F};
+GLfloat weakLight[] = { 0.01f, 0.01f, 0.01f, 1.0f };
+GLfloat mediumLight[] = { 0.5f, 0.5f, 0.5f,1.0f };
+GLfloat powerfulLight[] = { 1.0f, 1.0f, 1.0f,1.0f };
+
 lights light0Status = L0OFF;
 GLfloat light0_position[] = { 0,-0.1f, -1, 0.5f };
 GLfloat light0_direction[]={0,1,0};
 
 lights light1Status = L1OFF;
 //GLfloat light1_position[] = {1.5,1.55,-2.375 ,1.0 };
-GLfloat light1_position[] = {1,-0.75,-2.5,1 };
+GLfloat light1_position[] = {-1,-0.75,-2.5,1 };
 GLfloat light1_direction[]={1,0,0 };
 GLfloat light1_specular[]={1,1,1,1};
 
-GLfloat weakLight[] = { 0.01f, 0.01f, 0.01f, 1.0f };
-GLfloat mediumLight[] = { 0.5f, 0.5f, 0.5f,1.0f };
-GLfloat powerfulLight[] = { 1.0f, 1.0f, 1.0f,1.0f };
+
 
 // macierze cieni typu matrix
 GLPMatrix Macierz_cieni;
