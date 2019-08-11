@@ -1,19 +1,27 @@
 #pragma once
 
-#define WINOWO_WIDTH  600
-#define WINDOW_HEIGHT  600
-#define AMOUNT_OF_TEXTURES 4
-#define WALL 0
-#define WALL2 1
-#define ROAD 2
-#define GRASS 3
-#define WIEV_DISTANCE 10
-#define LIGHT_MULTIPLAYER 1.75
-#define GROUND_WIDTH 9
-#define GROUND_HEIGHT 3
-#define GROUND_Y -1
+static constexpr GLfloat wievDistance = 10.0f;
+static constexpr int amountOfTextures = 4;
+static constexpr int windowHeight = 600;
+static constexpr int windowWidht = 600;
+static constexpr GLfloat lightMultiplayer = 1.75f;
+static constexpr GLfloat groundY = -1.0f;
+static constexpr GLfloat groundHeight = 3.0f;
+static constexpr GLfloat groundWidth = 9.0f;
+static constexpr GLfloat carSpeed = 0.5f;
+enum {
+	EXIT,
+	ON,
+	OFF,
+	ALL,
+};
+enum textures {
+	WALL,
+	WALL2,
+	ROAD,
+	GRASS
+};
 
-enum { EXIT, ON, OFF, ALL };
 enum scale {
 	FULL_WINDOW,
 	ASPECT_1_1
@@ -23,22 +31,25 @@ enum projection {
 	perspective
 };
 //light
-enum lights { L0ON, L0OFF, L1ON, L1OFF};
+enum lights {
+	L0ON,
+	L0OFF,
+	L1ON,
+	L1OFF
+};
 GLfloat weakLight[] = { 0.01f, 0.01f, 0.01f, 1.0f };
 GLfloat mediumLight[] = { 0.5f, 0.5f, 0.5f,1.0f };
 GLfloat powerfulLight[] = { 1.0f, 1.0f, 1.0f,1.0f };
 
 lights light0Status = L0OFF;
 GLfloat light0_position[] = { 0,-0.1f, -1, 0.5f };
-GLfloat light0_direction[]={0,1,0};
+GLfloat light0_direction[] = { 0,1,0 };
 
 lights light1Status = L1OFF;
 //GLfloat light1_position[] = {1.5,1.55,-2.375 ,1.0 };
-GLfloat light1_position[] = {-1,-0.75,-2.5,1 };
-GLfloat light1_direction[]={1,0,0 };
-GLfloat light1_specular[]={1,1,1,1};
-
-
+GLfloat light1_position[] = { -1,-0.75,-2.5,1 };
+GLfloat light1_direction[] = { 1,0,0 };
+GLfloat light1_specular[] = { 1,1,1,1 };
 
 // macierze cieni typu matrix
 GLPMatrix Macierz_cieni;
@@ -59,10 +70,12 @@ GLPVector3 bezCienia[3] = { {0.0f, -50.5f,  0.0f},
 //camera
 GLPFrame frameCamera;
 //textures
-GLuint textures[AMOUNT_OF_TEXTURES];
-const char* textureFile[AMOUNT_OF_TEXTURES] = { "textures/brickwall.tga","textures/brickwall2.tga","textures/road.tga","textures/grass.tga" };
+GLuint textures[amountOfTextures];
+const char* textureFile[amountOfTextures] = { "textures/brickwall.tga","textures/brickwall2.tga","textures/road.tga","textures/grass.tga" };
 
-//variables begin
+const static int countOfLights = 10;
+//car movment
+GLfloat positionX = 2, positionZ = -2;
 int Aspect = FULL_WINDOW;
 //projection
 projection activeProjection = perspective;
@@ -73,10 +86,9 @@ float translatex = 0.0, translatey = 0.0;
 int button_state = GLUT_UP;
 int button_x, button_y;
 GLfloat right = 3, left = -3, top = 3, bottom = -3;
-//variables end
+
 const static GLfloat GL_PI = 3.1415f;
-//Control info
-const static int countOfLights = 10;
+
 const char* Info = R"(
 						STEROWANIE
 		  	-----------------------------------------------------------------
@@ -84,7 +96,7 @@ const char* Info = R"(
 		  		->	Lewo/Prawo/Gora/Dol - ruch kamery
 
 		  				-Klawiatura-
-				-> +/- - 
+				-> +/- -
 		  		-> 1-2 - wl/wyl oswietlenie 1-2
 
 						   -MYSZ-
