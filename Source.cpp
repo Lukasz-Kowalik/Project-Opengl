@@ -136,20 +136,12 @@ void DrawBody() {
 	glVertex3f(xr, yu, zb);
 	glVertex3f(xr, yd, zb);
 	glVertex3f(xl, yd, zb);
-	glVertex3f(x2r, y2u, zb);
-	glVertex3f(-x2r, y2u, zb);
-	glVertex3f(-x2r, yu, zb);
-	glVertex3f(x2r, yu, zb);
 
 	//front wall
 	glVertex3f(xl, yu, -zf);
 	glVertex3f(xr, yu, -zf);
 	glVertex3f(xr, yd, -zf);
 	glVertex3f(xl, yd, -zf);
-	glVertex3f(x2r, y2u, zf);
-	glVertex3f(-x2r, y2u, zf);
-	glVertex3f(-x2r, yu, zf);
-	glVertex3f(x2r, yu, zf);
 
 	//wall down
 	glVertex3f(xl, yd, zb);
@@ -172,24 +164,43 @@ void DrawBody() {
 	glVertex3f(xr, yu, zf);
 
 	//left wall
-	glVertex3f(-x2r, yu, zb);
-	glVertex3f(-x2r, yu, zf);
-	glVertex3f(-x2r, y2u, zf);
-	glVertex3f(-x2r, y2u, zb);
 	glVertex3f(xl, yu, zb);
 	glVertex3f(xl, yd, zb);
 	glVertex3f(xl, yd, zf);
 	glVertex3f(xl, yu, zf);
 
 	// right wall
-	glVertex3f(x2r, yu, zb);
-	glVertex3f(x2r, yu, zf);
-	glVertex3f(x2r, y2u, zf);
-	glVertex3f(x2r, y2u, zb);
 	glVertex3f(xr, yu, zb);
 	glVertex3f(xr, yd, zb);
 	glVertex3f(xr, yd, zf);
 	glVertex3f(xr, yu, zf);
+
+	//car window
+	glColor3fv(Aqua);
+
+	//left
+	glVertex3f(-x2r, yu, zb);
+	glVertex3f(-x2r, yu, zf);
+	glVertex3f(-x2r, y2u, zf);
+	glVertex3f(-x2r, y2u, zb);
+
+	//right
+	glVertex3f(x2r, yu, zb);
+	glVertex3f(x2r, yu, zf);
+	glVertex3f(x2r, y2u, zf);
+	glVertex3f(x2r, y2u, zb);
+
+	//front
+	glVertex3f(x2r, y2u, zf);
+	glVertex3f(-x2r, y2u, zf);
+	glVertex3f(-x2r, yu, zf);
+	glVertex3f(x2r, yu, zf);
+
+	//back
+	glVertex3f(x2r, y2u, zb);
+	glVertex3f(-x2r, y2u, zb);
+	glVertex3f(-x2r, yu, zb);
+	glVertex3f(x2r, yu, zb);
 
 	glEnd();
 	glDisable(GL_COLOR_MATERIAL);
