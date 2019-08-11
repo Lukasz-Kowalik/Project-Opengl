@@ -51,16 +51,16 @@ void DrawWheels() {
 	glEnable(GL_COLOR_MATERIAL);
 	glColor3fv(Gray);
 
-	glTranslatef(-0.5, -0.86, -0.5);
+	glTranslatef(-0.5, -0.86, -0.7);
 	glutSolidSphere(0.25, 10, 10);
 
-	glTranslatef(0, 0, 0.4);
+	glTranslatef(0, 0, 0.7);
 	glutSolidSphere(0.25, 10, 10);
 
 	glTranslatef(1, 0, 0);
 	glutSolidSphere(0.25, 10, 10);
 
-	glTranslatef(0, 0, -0.4);
+	glTranslatef(0, 0, -0.7);
 	glutSolidSphere(0.25, 10, 10);
 
 	glDisable(GL_COLOR_MATERIAL);
