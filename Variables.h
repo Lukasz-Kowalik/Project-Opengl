@@ -1,9 +1,9 @@
 #pragma once
 
+static constexpr GLint windowHeight = 600;
+static constexpr GLint windowWidht = 600;
+static constexpr GLint amountOfTextures = 4;
 static constexpr GLfloat wievDistance = 10.0f;
-static constexpr int amountOfTextures = 4;
-static constexpr int windowHeight = 600;
-static constexpr int windowWidht = 600;
 static constexpr GLfloat lightMultiplayer = 1.75f;
 static constexpr GLfloat groundY = -1.0f;
 static constexpr GLfloat groundHeight = 3.0f;
@@ -22,7 +22,7 @@ enum textures {
 	GRASS
 };
 
-enum scale {
+enum windowScale {
 	FULL_WINDOW,
 	ASPECT_1_1
 };

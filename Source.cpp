@@ -345,21 +345,21 @@ void projectionFrustrum(int width, int height)
 	{
 		// wysokoœæ okna wiêksza od wysokoœci okna
 		if (width < height && width > 0)
-			glFrustum(-2.0, 2.0, -2.0 * height / width, 2.0 * height / width, 1.0, WIEV_DISTANCE);
+			glFrustum(-2.0, 2.0, -2.0 * height / width, 2.0 * height / width, 1.0, wievDistance);
 		else
 
 			// szerokoœæ okna wiêksza lub równa wysokoœci okna
 			if (width >= height && height > 0)
-				glFrustum(-2.0 * width / height, 2.0 * width / height, -2.0, 2.0, 1.0, WIEV_DISTANCE);
+				glFrustum(-2.0 * width / height, 2.0 * width / height, -2.0, 2.0, 1.0, wievDistance);
 	}
 	else
-		glFrustum(-2.0, 2.0, -2.0, 2.0, 1.0, WIEV_DISTANCE);
+		glFrustum(-2.0, 2.0, -2.0, 2.0, 1.0, wievDistance);
 }
 void projectionPerspective(int width, int height) {
 	GLdouble aspect = 1;
 	if (height > 0)
 		aspect = width / (GLdouble)height;
-	gluPerspective(FOV, aspect, 1.0, WIEV_DISTANCE);
+	gluPerspective(FOV, aspect, 1.0, wievDistance);
 }
 //projection end
 
@@ -488,6 +488,7 @@ void Keyboard(unsigned char key, int x, int y)
 	default:
 		break;
 	}
+
 	Reshape(glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
 }
 void SpecialKeys(int key, int x, int y)
