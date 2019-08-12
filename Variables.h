@@ -1,14 +1,14 @@
 #pragma once
 
-static constexpr GLint windowHeight = 600;
-static constexpr GLint windowWidht = 600;
-static constexpr GLint amountOfTextures = 4;
-static constexpr GLfloat wievDistance = 10.0f;
-static constexpr GLfloat lightMultiplayer = 1.75f;
-static constexpr GLfloat groundY = -1.0f;
-static constexpr GLfloat groundHeight = 3.0f;
-static constexpr GLfloat groundWidth = 9.0f;
-static constexpr GLfloat carSpeed = 0.5f;
+constexpr GLint windowHeight = 600;
+constexpr GLint windowWidht = 600;
+constexpr GLint amountOfTextures = 4;
+constexpr GLfloat wievDistance = 10.0f;
+constexpr GLfloat lightMultiplayer = 1.75f;
+constexpr GLfloat groundY = -1.0f;
+constexpr GLfloat groundHeight = 3.0f;
+constexpr GLfloat groundWidth = 9.0f;
+constexpr GLfloat carSpeed = 0.5f;
 enum {
 	EXIT,
 	ON,
