@@ -75,8 +75,14 @@ const char* textureFile[amountOfTextures] = { "textures/brickwall.tga","textures
 
 const static int countOfLights = 10;
 //car movment
-GLfloat positionX = 2, positionZ = -2;
-int Aspect = FULL_WINDOW;
+GLfloat positionX = 0.0f, positionZ = 0.0f, positionY = 0.0f, turnAngle = 45.0f;
+GLint turnCar = 0;
+GLfloat *directionHorizontal = &positionX;
+GLfloat *directionVertical = &positionZ;
+
+bool f = true;
+
+windowScale Aspect = FULL_WINDOW;
 //projection
 projection activeProjection = perspective;
 GLdouble FOV = 90;

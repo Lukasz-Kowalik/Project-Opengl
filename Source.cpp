@@ -449,7 +449,81 @@ static void MouseMotion(int x, int y)
 		glutPostRedisplay();
 	}
 }
-void Keyboard(unsigned char key, int x, int y)
+static void SetCarRadiuse() {
+	if (turnCar >= 360 || turnCar <= -360)turnCar = 0;
+}
+static void TurnLeft() {
+	turnCar += turnAngle;
+	SetCarRadiuse();
+
+	if (turnCar == 0)
+	{
+		directionHorizontal = &positionX;
+		f = true;
+	}
+	else if (turnCar == 90) {
+		directionHorizontal = &positionZ;
+		f = false;
+	}
+	else if (turnCar == 180)
+	{
+		directionHorizontal = &positionX;
+		f = false;
+	}
+	else if (turnCar == 270)
+	{
+		directionHorizontal = &positionZ;
+		f = true;
+	}
+}
+static void TurnRight() {
+	if (turnCar == 0)turnCar = 360;
+	turnCar -= turnAngle;
+	SetCarRadiuse();
+	switch (turnCar)
+	{
+	case 0:
+	{
+		directionHorizontal = &positionX;
+		f = true; break;
+	}
+
+	case 90: {
+		directionHorizontal = &positionZ;
+		f = false; break;
+	}
+	case 180:
+	{
+		directionHorizontal = &positionX;
+		f = false; break;
+	}
+	case 270:
+	{
+		directionHorizontal = &positionZ;
+		f = true; break;
+	}
+	default:
+	case 45: {
+		*directionHorizontal /= 2.0f;
+		*directionVertical /= 2.0f;
+		break;
+	}
+		break;
+	}
+}
+static void MoveForward() {
+	if (f)
+		* directionHorizontal -= carSpeed;
+	else
+		*directionHorizontal += carSpeed;
+}
+static void MoveBackwards() {
+	if (f)
+		* directionHorizontal += carSpeed;
+	else
+		*directionHorizontal -= carSpeed;
+}
+static void Keyboard(unsigned char key, int x, int y)
 {
 	switch (key)
 	{
@@ -471,10 +545,11 @@ void Keyboard(unsigned char key, int x, int y)
 		}
 		break;
 	}
-	case'w': {positionX +=carSpeed; break; }
-	case's': {positionX -= carSpeed;break; }
-	case '1':
-	{
+	case'w': { MoveForward();	break; }
+	case's': { MoveBackwards(); break; }
+	case'a': { TurnLeft();		break; }
+	case'd': { TurnRight();	    break; }
+	case '1': {
 		if (light0Status == L0OFF) {
 			light0Status = L0ON;
 			glEnable(GL_LIGHT0);
