@@ -502,27 +502,74 @@ static void TurnRight() {
 		directionHorizontal = &positionZ;
 		f = true; break;
 	}
+
 	default:
+		break;
+	}
+}
+static void MoveForward(const GLfloat speed) {
+	if (f)
+		* directionHorizontal -= speed;
+	else
+		*directionHorizontal += speed;
+
+	switch (turnCar)
+	{
 	case 45: {
-		*directionHorizontal /= 2.0f;
-		*directionVertical /= 2.0f;
+		*directionHorizontal -= speed;
+		*directionVertical += speed;
 		break;
 	}
+	case 135: {
+		*directionHorizontal += speed;
+		*directionVertical += speed;
+		break;
+	}
+	case 225: {
+		*directionHorizontal += speed;
+		*directionVertical -= speed;
+		break;
+	}
+	case 315: {
+		*directionHorizontal -= speed;
+		*directionVertical -= speed;
+		break;
+	}
+	default:
 		break;
 	}
 }
-static void MoveForward() {
-	if (f)
-		* directionHorizontal -= carSpeed;
-	else
-		*directionHorizontal += carSpeed;
-}
-static void MoveBackwards() {
-	if (f)
-		* directionHorizontal += carSpeed;
-	else
-		*directionHorizontal -= carSpeed;
-}
+//static void MoveBackwards() {
+//	if (f)
+//		* directionHorizontal += carSpeed;
+//	else
+//		*directionHorizontal -= carSpeed;
+//	switch (turnCar)
+//	{
+//	case 45: {
+//		*directionHorizontal += carSpeed;
+//		*directionVertical -= carSpeed;
+//		break;
+//	}
+//	case 135: {
+//		*directionHorizontal -= carSpeed;
+//		*directionVertical -= carSpeed;
+//		break;
+//	}
+//	case 225: {
+//		*directionHorizontal -= carSpeed;
+//		*directionVertical += carSpeed;
+//		break;
+//	}
+//	case 315: {
+//		*directionHorizontal += carSpeed;
+//		*directionVertical += carSpeed;
+//		break;
+//	}
+//	default:
+//		break;
+//	}
+//}
 static void Keyboard(unsigned char key, int x, int y)
 {
 	switch (key)
@@ -545,10 +592,10 @@ static void Keyboard(unsigned char key, int x, int y)
 		}
 		break;
 	}
-	case'w': { MoveForward();	break; }
-	case's': { MoveBackwards(); break; }
-	case'a': { TurnLeft();		break; }
-	case'd': { TurnRight();	    break; }
+	case'w': { MoveForward(carSpeed);	break; }
+	case's': { MoveForward(-carSpeed);  break; }
+	case'a': { TurnLeft(turnAngle);		break; }
+	case'd': { TurnRight();		break; }
 	case '1': {
 		if (light0Status == L0OFF) {
 			light0Status = L0ON;
