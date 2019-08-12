@@ -449,12 +449,12 @@ static void MouseMotion(int x, int y)
 		glutPostRedisplay();
 	}
 }
-static void SetCarRadiuse() {
+static void ResetCarRadiuse() {
 	if (turnCar >= 360 || turnCar <= -360)turnCar = 0;
 }
-static void TurnLeft() {
+static void TurnLeft(const GLfloat angle) {
 	turnCar += turnAngle;
-	SetCarRadiuse();
+	ResetCarRadiuse();
 
 	if (turnCar == 0)
 	{
@@ -463,23 +463,26 @@ static void TurnLeft() {
 	}
 	else if (turnCar == 90) {
 		directionHorizontal = &positionZ;
+
 		f = false;
 	}
 	else if (turnCar == 180)
 	{
 		directionHorizontal = &positionX;
+
 		f = false;
 	}
 	else if (turnCar == 270)
 	{
 		directionHorizontal = &positionZ;
+
 		f = true;
 	}
 }
 static void TurnRight() {
 	if (turnCar == 0)turnCar = 360;
 	turnCar -= turnAngle;
-	SetCarRadiuse();
+	ResetCarRadiuse();
 	switch (turnCar)
 	{
 	case 0:
