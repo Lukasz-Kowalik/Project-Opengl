@@ -163,17 +163,18 @@ static void DrawBody() {
 	glVertex3f(x2r, yu, zf);
 	glVertex3f(xr, yu, zf);
 
-	//left wall
-	glVertex3f(xl, yu, zb);
-	glVertex3f(xl, yd, zb);
-	glVertex3f(xl, yd, zf);
-	glVertex3f(xl, yu, zf);
-
 	// right wall
 	glVertex3f(xr, yu, zb);
 	glVertex3f(xr, yd, zb);
 	glVertex3f(xr, yd, zf);
 	glVertex3f(xr, yu, zf);
+
+	//left wall
+	glColor3fv(Red);
+	glVertex3f(xl, yu, zb);
+	glVertex3f(xl, yd, zb);
+	glVertex3f(xl, yd, zf);
+	glVertex3f(xl, yu, zf);
 
 	//car window
 	glColor3fv(Aqua);
