@@ -79,9 +79,11 @@ GLfloat positionX = 0.0f, positionZ = 0.0f, positionY = 0.0f, turnAngle = 45.0f;
 GLint turnCar = 0;
 GLfloat *directionHorizontal = &positionX;
 GLfloat *directionVertical = &positionZ;
-
+GLint lastAngle = turnCar;
 bool f = true;
-
+bool swapFlag = false;
+bool rightTurnWasUsed = false;
+bool leftTurnWasUsed = false;
 windowScale Aspect = FULL_WINDOW;
 //projection
 projection activeProjection = perspective;

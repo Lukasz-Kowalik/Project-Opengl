@@ -452,30 +452,41 @@ static void MouseMotion(int x, int y)
 static void ResetCarRadiuse() {
 	if (turnCar >= 360 || turnCar <= -360)turnCar = 0;
 }
-static void TurnLeft(const GLfloat angle) {
+static void Swap() {
+	if (swapFlag) {
+		directionHorizontal = &positionX;
+		directionVertical = &positionZ;
+	}
+	else {
+		directionHorizontal = &positionZ;
+		directionVertical = &positionX;
+	}
+	swapFlag = !swapFlag;
+}
+static void TurnLeft() {
 	turnCar += turnAngle;
 	ResetCarRadiuse();
-
 	if (turnCar == 0)
 	{
 		directionHorizontal = &positionX;
+		directionVertical = &positionZ;
 		f = true;
 	}
 	else if (turnCar == 90) {
 		directionHorizontal = &positionZ;
-
+		directionVertical = &positionX;
 		f = false;
 	}
 	else if (turnCar == 180)
 	{
 		directionHorizontal = &positionX;
-
+		directionVertical = &positionZ;
 		f = false;
 	}
 	else if (turnCar == 270)
 	{
 		directionHorizontal = &positionZ;
-
+		directionVertical = &positionX;
 		f = true;
 	}
 }
@@ -483,37 +494,68 @@ static void TurnRight() {
 	if (turnCar == 0)turnCar = 360;
 	turnCar -= turnAngle;
 	ResetCarRadiuse();
+	//if (turnCar == 0)
+	//{
+	//	directionHorizontal = &positionX;
+	//	directionVertical = &positionZ;
+	//	f = true;
+	//}
+	//else if (turnCar == 90) {
+	//	directionHorizontal = &positionZ;
+	//	directionVertical = &positionX;
+	//	f = false;
+	//}
+	//else if (turnCar == 180)
+	//{
+	//	directionHorizontal = &positionX;
+	//	directionVertical = &positionZ;
+	//	f = false;
+	//}
+	//else if (turnCar == 270)
+	//{
+	//	directionHorizontal = &positionZ;
+	//	directionVertical = &positionX;
+	//	f = true;
+	//}
+	
+	
 	switch (turnCar)
 	{
 	case 0:
 	{
 		directionHorizontal = &positionX;
+		directionVertical = &positionZ;
 		f = true; break;
 	}
 
-	case 90: {
+	case 90: 
+	{
 		directionHorizontal = &positionZ;
+		directionVertical = &positionX;
 		f = false; break;
 	}
 	case 180:
 	{
 		directionHorizontal = &positionX;
+		directionVertical = &positionZ;
 		f = false; break;
 	}
 	case 270:
 	{
 		directionHorizontal = &positionZ;
+		directionVertical = &positionX;
 		f = true; break;
 	}
-
 	default:
 		break;
 	}
+	
 }
 static void MoveForward(const GLfloat speed) {
+	
 	if (f)
 		* directionHorizontal -= speed;
-	else
+	else 
 		*directionHorizontal += speed;
 
 	switch (turnCar)
@@ -539,9 +581,11 @@ static void MoveForward(const GLfloat speed) {
 		break;
 	}
 	default:
+	
 		break;
 	}
 }
+
 //static void MoveBackwards() {
 //	if (f)
 //		* directionHorizontal += carSpeed;
@@ -573,6 +617,7 @@ static void MoveForward(const GLfloat speed) {
 //		break;
 //	}
 //}
+
 static void Keyboard(unsigned char key, int x, int y)
 {
 	switch (key)
@@ -597,7 +642,7 @@ static void Keyboard(unsigned char key, int x, int y)
 	}
 	case'w': { MoveForward(carSpeed);	break; }
 	case's': { MoveForward(-carSpeed);  break; }
-	case'a': { TurnLeft(turnAngle);		break; }
+	case'a': { TurnLeft();		break; }
 	case'd': { TurnRight();		break; }
 	case '1': {
 		if (light0Status == L0OFF) {
