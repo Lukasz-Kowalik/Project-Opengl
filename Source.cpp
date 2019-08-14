@@ -453,8 +453,17 @@ static void MouseMotion(int x, int y)
 		glutPostRedisplay();
 	}
 }
+
 static void ResetCarRadiuse() {
 	if (turnCar >= 360 || turnCar <= -360)turnCar = 0;
+}
+static void SwapHorisontToZ() {
+	directionHorizontal = &positionZ;
+	directionVertical = &positionX;
+}
+static void SwapHorisontToX() {
+	directionHorizontal = &positionX;
+	directionVertical = &positionZ;
 }
 static void TurnLeft() {
 	turnCar += turnAngle;
@@ -463,127 +472,95 @@ static void TurnLeft() {
 	rightTurnWasUsed = false;
 	if (turnCar == 0)
 	{
-		directionHorizontal = &positionX;
-		directionVertical = &positionZ;
-		f = true;
+		SwapHorisontToX();
+		isTheCarFrontFacingLeft = true;
 	}
 	else if (turnCar == 90) {
-		directionHorizontal = &positionZ;
-		directionVertical = &positionX;
-		f = false;
+		SwapHorisontToZ();
+		isTheCarFrontFacingLeft = false;
 	}
 	else if (turnCar == 180)
 	{
-		directionHorizontal = &positionX;
-		directionVertical = &positionZ;
-		f = false;
+		SwapHorisontToX();
+		isTheCarFrontFacingLeft = false;
 	}
 	else if (turnCar == 270)
 	{
-		directionHorizontal = &positionZ;
-		directionVertical = &positionX;
-		f = true;
+		SwapHorisontToZ();
+		isTheCarFrontFacingLeft = true;
 	}
 }
 static void TurnRight() {
 	if (turnCar == 0)turnCar = 360;
 	turnCar -= turnAngle;
 	ResetCarRadiuse();
-	//if (turnCar == 0)
-	//{
-	//	directionHorizontal = &positionX;
-	//	directionVertical = &positionZ;
-	//	f = true;
-	//}
-	//else if (turnCar == 90) {
-	//	directionHorizontal = &positionZ;
-	//	directionVertical = &positionX;
-	//	f = false;
-	//}
-	//else if (turnCar == 180)
-	//{
-	//	directionHorizontal = &positionX;
-	//	directionVertical = &positionZ;
-	//	f = false;
-	//}
-	//else if (turnCar == 270)
-	//{
-	//	directionHorizontal = &positionZ;
-	//	directionVertical = &positionX;
-	//	f = true;
-	//}
 	rightTurnWasUsed = true;
 	switch (turnCar)
 	{
 	case 0:
 	{
-		directionHorizontal = &positionX;
-		directionVertical = &positionZ;
-		f = true;
+		SwapHorisontToX();
+		isTheCarFrontFacingLeft = true;
 		break;
 	}
-
 	case 90:
 	{
-		directionHorizontal = &positionZ;
-		directionVertical = &positionX;
-		f = false;
+		SwapHorisontToZ();
+		isTheCarFrontFacingLeft = false;
 		break;
 	}
 	case 180:
 	{
-		directionHorizontal = &positionX;
-		directionVertical = &positionZ;
-		f = false;
+		SwapHorisontToX();
+		isTheCarFrontFacingLeft = false;
 		break;
 	}
 	case 270:
 	{
-		directionVertical = &positionX;
-		directionHorizontal = &positionZ;
-		f = true;
+		SwapHorisontToZ();
+		isTheCarFrontFacingLeft = true;
 		break;
 	}
 	default:
 		break;
 	}
 }
-static void MoveForward(const GLfloat carSpeed) {
-	if (f)
-		* directionHorizontal -= carSpeed;
+static void MoveForward(const GLfloat speed) {
+	if (isTheCarFrontFacingLeft)
+		* directionHorizontal -= speed;
 	else
-		*directionHorizontal += carSpeed;
+		*directionHorizontal += speed;
 	switch (turnCar)
 	{
 	case 45: {
 		if (rightTurnWasUsed) {
-			*directionVertical -= carSpeed;
+			*directionVertical -= speed;
 		}
 		else
 		{
-			*directionHorizontal -= carSpeed;
-			*directionVertical += carSpeed;
+			*directionHorizontal -= speed;
+			*directionVertical += speed;
 		}
 		break;
 	}
 	case 135: {
-		*directionHorizontal += carSpeed;
-		*directionVertical += carSpeed;
+		*directionHorizontal += speed;
+		*directionVertical += speed;
 		break;
 	}
 	case 225: {
 		if (rightTurnWasUsed) {
-			*directionVertical += carSpeed;
+			*directionVertical += speed;
 		}
 		else {
-			*directionHorizontal += carSpeed;
-			*directionVertical -= carSpeed;
+			*directionHorizontal += speed;
+			*directionVertical -= speed;
 		}
 		break;
 	}
 	case 315: {
-		*directionHorizontal -= carSpeed;
-		*directionVertical -= carSpeed;
+		*directionHorizontal -= speed;
+		*directionVertical -= speed;
 		break;
 	}
 	default:
