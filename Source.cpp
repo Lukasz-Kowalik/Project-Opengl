@@ -452,20 +452,11 @@ static void MouseMotion(int x, int y)
 static void ResetCarRadiuse() {
 	if (turnCar >= 360 || turnCar <= -360)turnCar = 0;
 }
-static void Swap() {
-	if (swapFlag) {
-		directionHorizontal = &positionX;
-		directionVertical = &positionZ;
-	}
-	else {
-		directionHorizontal = &positionZ;
-		directionVertical = &positionX;
-	}
-	swapFlag = !swapFlag;
-}
 static void TurnLeft() {
 	turnCar += turnAngle;
 	ResetCarRadiuse();
+
+	rightTurnWasUsed = false;
 	if (turnCar == 0)
 	{
 		directionHorizontal = &positionX;
@@ -517,106 +508,85 @@ static void TurnRight() {
 	//	directionVertical = &positionX;
 	//	f = true;
 	//}
-	
-	
+	rightTurnWasUsed = true;
 	switch (turnCar)
 	{
 	case 0:
 	{
 		directionHorizontal = &positionX;
 		directionVertical = &positionZ;
-		f = true; break;
+		f = true;
+		break;
 	}
 
-	case 90: 
+	case 90:
 	{
 		directionHorizontal = &positionZ;
 		directionVertical = &positionX;
-		f = false; break;
+		f = false;
+		break;
 	}
 	case 180:
 	{
 		directionHorizontal = &positionX;
 		directionVertical = &positionZ;
-		f = false; break;
+		f = false;
+		break;
 	}
 	case 270:
 	{
-		directionHorizontal = &positionZ;
 		directionVertical = &positionX;
-		f = true; break;
+		directionHorizontal = &positionZ;
+		f = true;
+		break;
 	}
 	default:
 		break;
 	}
-	
 }
-static void MoveForward(const GLfloat speed) {
-	
+static void MoveForward(const GLfloat carSpeed) {
 	if (f)
-		* directionHorizontal -= speed;
-	else 
-		*directionHorizontal += speed;
-
+		* directionHorizontal -= carSpeed;
+	else
+		*directionHorizontal += carSpeed;
 	switch (turnCar)
 	{
 	case 45: {
-		*directionHorizontal -= speed;
-		*directionVertical += speed;
+		if (rightTurnWasUsed) {
+			*directionVertical -= carSpeed;
+		}
+		else
+		{
+			*directionHorizontal -= carSpeed;
+			*directionVertical += carSpeed;
+		}
 		break;
 	}
 	case 135: {
-		*directionHorizontal += speed;
-		*directionVertical += speed;
+		*directionHorizontal += carSpeed;
+		*directionVertical += carSpeed;
 		break;
 	}
 	case 225: {
-		*directionHorizontal += speed;
-		*directionVertical -= speed;
+		if (rightTurnWasUsed) {
+			*directionVertical += carSpeed;
+		}
+		else {
+			*directionHorizontal += carSpeed;
+			*directionVertical -= carSpeed;
+		}
 		break;
 	}
 	case 315: {
-		*directionHorizontal -= speed;
-		*directionVertical -= speed;
+		*directionHorizontal -= carSpeed;
+		*directionVertical -= carSpeed;
 		break;
 	}
 	default:
-	
+
 		break;
 	}
 }
-
-//static void MoveBackwards() {
-//	if (f)
-//		* directionHorizontal += carSpeed;
-//	else
-//		*directionHorizontal -= carSpeed;
-//	switch (turnCar)
-//	{
-//	case 45: {
-//		*directionHorizontal += carSpeed;
-//		*directionVertical -= carSpeed;
-//		break;
-//	}
-//	case 135: {
-//		*directionHorizontal -= carSpeed;
-//		*directionVertical -= carSpeed;
-//		break;
-//	}
-//	case 225: {
-//		*directionHorizontal -= carSpeed;
-//		*directionVertical += carSpeed;
-//		break;
-//	}
-//	case 315: {
-//		*directionHorizontal += carSpeed;
-//		*directionVertical += carSpeed;
-//		break;
-//	}
-//	default:
-//		break;
-//	}
-//}
 
 static void Keyboard(unsigned char key, int x, int y)
 {
@@ -642,8 +612,8 @@ static void Keyboard(unsigned char key, int x, int y)
 	}
 	case'w': { MoveForward(carSpeed);	break; }
 	case's': { MoveForward(-carSpeed);  break; }
-	case'a': { TurnLeft();		break; }
-	case'd': { TurnRight();		break; }
+	case'a': { TurnLeft();				break; }
+	case'd': { TurnRight();				break; }
 	case '1': {
 		if (light0Status == L0OFF) {
 			light0Status = L0ON;
