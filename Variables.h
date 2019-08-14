@@ -104,12 +104,18 @@ const char* Info = R"(
 		  		->	Lewo/Prawo/Gora/Dol - ruch kamery
 
 		  				-Klawiatura-
-				-> +/- -
+				-> +/- - przyblizenie/oddalenie kamery
 		  		-> 1-2 - wl/wyl oswietlenie 1-2
+
+					    Sterowanie samochodem:
+						x w - do przody
+						x s - do tylu
+						x a - lewo
+						x d - prawo
 
 						   -MYSZ-
 		  		-> mysz - przemieszczanie szceny
-				-> strza³ki lewo/prawo ruch kamery w lewo/prawo
+				-> strzalki lewo/prawo ruch kamery w lewo/prawo
 		  			Reszta sterowania odbywa sie poprzez menu
 		  	-----------------------------------------------------------------
 )";
