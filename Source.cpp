@@ -46,26 +46,6 @@ static void TurnOnLight1() {
 	glutPostRedisplay();
 }
 
-static void DrawWheels() {
-	glPushMatrix();
-	glEnable(GL_COLOR_MATERIAL);
-	glColor3fv(Gray);
-
-	glTranslatef(-0.5, -0.86, -0.7);
-	glutSolidSphere(0.25, 10, 10);
-
-	glTranslatef(0, 0, 0.7);
-	glutSolidSphere(0.25, 10, 10);
-
-	glTranslatef(1, 0, 0);
-	glutSolidSphere(0.25, 10, 10);
-
-	glTranslatef(0, 0, -0.7);
-	glutSolidSphere(0.25, 10, 10);
-
-	glDisable(GL_COLOR_MATERIAL);
-	glPopMatrix();
-}
 static void DrawRoad() {
 	glBindTexture(GL_TEXTURE_2D, textures[ROAD]);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
@@ -122,6 +102,111 @@ static void DrawGrass() {
 	glVertex3f(-groundWidth, groundY, -groundHeight);
 	glEnd();
 	glDisable(GL_TEXTURE_2D);
+	glPopMatrix();
+}
+
+static void DrawHouse() {
+	const float x = 1, y = -1, z = groundHeight / 2;
+
+	glBindTexture(GL_TEXTURE_2D, textures[WALL]);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+
+	glColor3fv(White);
+	glPushMatrix();
+	glTranslatef(0, 0, -5);
+
+	glEnable(GL_TEXTURE_2D);
+	//kwadrat
+	glBegin(GL_QUADS);
+	glColor3fv(White);
+	glNormal3f(0.0f, 0.0f, 1.0f);
+	glTexCoord2f(0, 0);
+	glVertex3f(x, y, z);
+
+	glTexCoord2f(1, 0);
+	glVertex3f(x, y, -z);
+
+	glTexCoord2f(1, 1);
+	glVertex3f(x, -y, -z);
+
+	glTexCoord2f(0, 1);
+	glVertex3f(x, -y, z);
+	glEnd();
+	//left wall
+	glBegin(GL_QUADS);
+	glColor3fv(White);
+	glNormal3f(0.0f, 0.0f, 1.0f);
+	glTexCoord2f(0, 0);
+	glVertex3f(-x, y, z);
+
+	glTexCoord2f(1, 0);
+	glVertex3f(-x, y, -z);
+
+	glTexCoord2f(1, 1);
+	glVertex3f(-x, -y, -z);
+
+	glTexCoord2f(0, 1);
+	glVertex3f(-x, -y, z);
+	glEnd();
+	glDisable(GL_TEXTURE_2D);
+	glPopMatrix();
+	//front wall
+	glBindTexture(GL_TEXTURE_2D, textures[WALL2]);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+
+	glColor3fv(White);
+	glPushMatrix();
+	glTranslatef(0, 0, -5.0f);
+	glEnable(GL_TEXTURE_2D);
+	//kwadrat
+	glBegin(GL_QUADS);
+	glColor3fv(White);
+	glNormal3f(0.0f, 0.0f, 1.0f);
+	glTexCoord2f(1, 1);
+	glVertex3f(-x, -y, z);
+
+	glTexCoord2f(0, 1);
+	glVertex3f(x, -y, z);
+
+	glTexCoord2f(0, 0);
+	glVertex3f(x, y, z);
+
+	glTexCoord2f(1, 0);
+	glVertex3f(-x, y, z);
+	glEnd();
+	glDisable(GL_TEXTURE_2D);
+	glEnable(GL_COLOR_MATERIAL);
+	glColor3fv(Gray);
+	glBegin(GL_QUADS);
+	glVertex3f(x, -y, z);
+	glVertex3f(-x, -y, z);
+	glVertex3f(-x, -y, -z);
+	glVertex3f(x, -y, -z);
+	glEnd();
+	glDisable(GL_COLOR_MATERIAL);
+	glPopMatrix();
+}
+
+static void DrawWheels() {
+	glPushMatrix();
+	glEnable(GL_COLOR_MATERIAL);
+	glColor3fv(Gray);
+
+	glTranslatef(-0.5, -0.86, -0.7);
+	glutSolidSphere(0.25, 10, 10);
+
+	glTranslatef(0, 0, 0.7);
+	glutSolidSphere(0.25, 10, 10);
+
+	glTranslatef(1, 0, 0);
+	glutSolidSphere(0.25, 10, 10);
+
+	glTranslatef(0, 0, -0.7);
+	glutSolidSphere(0.25, 10, 10);
+
+	glDisable(GL_COLOR_MATERIAL);
 	glPopMatrix();
 }
 static void DrawBody() {
@@ -219,89 +304,8 @@ static void DrawCar() {
 	DrawWheels();
 	glPopMatrix();
 }
-static void DrawHouse() {
-	const float x = 1, y = -1, z = groundHeight / 2;
 
-	glBindTexture(GL_TEXTURE_2D, textures[WALL]);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 
-	glColor3fv(White);
-	glPushMatrix();
-	glTranslatef(0, 0, -5);
-
-	glEnable(GL_TEXTURE_2D);
-	//kwadrat
-	glBegin(GL_QUADS);
-	glColor3fv(White);
-	glNormal3f(0.0f, 0.0f, 1.0f);
-	glTexCoord2f(0, 0);
-	glVertex3f(x, y, z);
-
-	glTexCoord2f(1, 0);
-	glVertex3f(x, y, -z);
-
-	glTexCoord2f(1, 1);
-	glVertex3f(x, -y, -z);
-
-	glTexCoord2f(0, 1);
-	glVertex3f(x, -y, z);
-	glEnd();
-	//left wall
-	glBegin(GL_QUADS);
-	glColor3fv(White);
-	glNormal3f(0.0f, 0.0f, 1.0f);
-	glTexCoord2f(0, 0);
-	glVertex3f(-x, y, z);
-
-	glTexCoord2f(1, 0);
-	glVertex3f(-x, y, -z);
-
-	glTexCoord2f(1, 1);
-	glVertex3f(-x, -y, -z);
-
-	glTexCoord2f(0, 1);
-	glVertex3f(-x, -y, z);
-	glEnd();
-	glDisable(GL_TEXTURE_2D);
-	glPopMatrix();
-	//front wall
-	glBindTexture(GL_TEXTURE_2D, textures[WALL2]);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-
-	glColor3fv(White);
-	glPushMatrix();
-	glTranslatef(0, 0, -5.0f);
-	glEnable(GL_TEXTURE_2D);
-	//kwadrat
-	glBegin(GL_QUADS);
-	glColor3fv(White);
-	glNormal3f(0.0f, 0.0f, 1.0f);
-	glTexCoord2f(1, 1);
-	glVertex3f(-x, -y, z);
-
-	glTexCoord2f(0, 1);
-	glVertex3f(x, -y, z);
-
-	glTexCoord2f(0, 0);
-	glVertex3f(x, y, z);
-
-	glTexCoord2f(1, 0);
-	glVertex3f(-x, y, z);
-	glEnd();
-	glDisable(GL_TEXTURE_2D);
-	glEnable(GL_COLOR_MATERIAL);
-	glColor3fv(Gray);
-	glBegin(GL_QUADS);
-	glVertex3f(x, -y, z);
-	glVertex3f(-x, -y, z);
-	glVertex3f(-x, -y, -z);
-	glVertex3f(x, -y, -z);
-	glEnd();
-	glDisable(GL_COLOR_MATERIAL);
-	glPopMatrix();
-}
 static void DrawLights() {
 	GLfloat startPositionX = -8.3f, startPositionY = -7.5f;
 	GLfloat sacale = 0.4f, dystanceZ = -7.5f;
