@@ -55,11 +55,11 @@ static void DrawRoad() {
 	glPushMatrix();
 
 	glEnable(GL_TEXTURE_2D);
-	//kwadrat
+
 	glBegin(GL_QUADS);
 	glColor3fv(White);
 	glNormal3f(0.0f, 0.0f, 1.0f);
-	glTexCoord2f(0, 1);  // okreœlenie pierwszej wspó³rzêdnej tekstury
+	glTexCoord2f(0, 1);
 	glVertex3f(-groundWidth, groundY, groundHeight);
 
 	glTexCoord2f(0, 0);
@@ -84,12 +84,11 @@ static void DrawGrass() {
 	glPushMatrix();
 
 	glEnable(GL_TEXTURE_2D);
-	//kwadrat
+
 	glBegin(GL_QUADS);
 	glColor3fv(White);
 	glNormal3f(0.0f, 0.0f, 1.0f);
-	glTexCoord2f(0, 1);  // okreœlenie pierwszej wspó³rzêdnej tekstury
-	glVertex3f(-groundWidth, groundY, groundHeight);
+	glTexCoord2f(0, 1);
 
 	glTexCoord2f(0, 0);
 	glVertex3f(groundWidth, groundY, groundHeight);
@@ -103,7 +102,6 @@ static void DrawGrass() {
 	glDisable(GL_TEXTURE_2D);
 	glPopMatrix();
 }
-
 static void DrawHouse() {
 	const float x = 1, y = -1, z = groundHeight / 2;
 
@@ -159,7 +157,7 @@ static void DrawHouse() {
 	glPushMatrix();
 	glTranslatef(0, 0, -5.0f);
 	glEnable(GL_TEXTURE_2D);
-	//kwadrat
+
 	glBegin(GL_QUADS);
 	glColor3fv(White);
 	glNormal3f(0.0f, 0.0f, 1.0f);
@@ -187,16 +185,6 @@ static void DrawHouse() {
 	glDisable(GL_COLOR_MATERIAL);
 	glPopMatrix();
 }
-
-static void DrawFog() {
-	glHint(GL_FOG_HINT, fog_hint);
-	glFogf(GL_FOG_MODE, fog_mode);
-	glFogfv(GL_FOG_COLOR, Gray);
-	glFogf(GL_FOG_START, fog_start);
-	glFogf(GL_FOG_END, fog_end);
-	glFogf(GL_FOG_DENSITY, fog_density);
-}
-
 static void DrawWheels() {
 	glPushMatrix();
 	glEnable(GL_COLOR_MATERIAL);
@@ -312,7 +300,6 @@ static void DrawCar() {
 	DrawWheels();
 	glPopMatrix();
 }
-
 static void DrawLights() {
 	GLfloat startPositionX = -8.3f, startPositionY = -7.5f;
 	GLfloat sacale = 0.4f, dystanceZ = -7.5f;
@@ -345,7 +332,19 @@ static void DrawLights() {
 		glPopMatrix();
 	}
 }
-static void Draw() {
+
+static void SetLights(unsigned char key) {
+}
+static void SetFog() {
+	glHint(GL_FOG_HINT, fog_hint);
+	glFogf(GL_FOG_MODE, fog_mode);
+	glFogfv(GL_FOG_COLOR, Gray);
+	glFogf(GL_FOG_START, fog_start);
+	glFogf(GL_FOG_END, fog_end);
+	glFogf(GL_FOG_DENSITY, fog_density);
+}
+
+static void DrawScene() {
 	DrawGrass();
 	DrawRoad();
 
@@ -355,8 +354,6 @@ static void Draw() {
 
 	TurnOnLight0();
 	TurnOnLight1();
-}
-static void SetLights(unsigned char key) {
 }
 
 static void projectionFrustrum(int width, int height)
@@ -395,7 +392,7 @@ static void Display()
 	glTranslatef(translatex, translatey, 0.0);
 	glScalef(scale, scale, scale);
 
-	Draw();
+	DrawScene();
 
 	glFlush();
 	glDisable(GL_LIGHTING);
@@ -456,8 +453,10 @@ static void MouseMotion(int x, int y)
 	}
 }
 
-static void ResetCarRadiuse() {
-	if (turnCar >= 360 || turnCar <= -360)turnCar = 0;
+static void ResetCarRadiuse(bool leftTurn=true) {
+	if (turnCar >= 360 || turnCar <= -360 && leftTurn)turnCar = 0;
+	else if(turnCar == 0 && !leftTurn)
+		turnCar = 360;
 }
 static void SwapHorisontToZ() {
 	directionHorizontal = &positionZ;
@@ -467,37 +466,8 @@ static void SwapHorisontToX() {
 	directionHorizontal = &positionX;
 	directionVertical = &positionZ;
 }
-static void TurnLeft() {
-	turnCar += turnAngle;
-	ResetCarRadiuse();
-
-	rightTurnWasUsed = false;
-	if (turnCar == 0)
-	{
-		SwapHorisontToX();
-		isTheCarFrontFacingLeft = true;
-	}
-	else if (turnCar == 90) {
-		SwapHorisontToZ();
-		isTheCarFrontFacingLeft = false;
-	}
-	else if (turnCar == 180)
-	{
-		SwapHorisontToX();
-		isTheCarFrontFacingLeft = false;
-	}
-	else if (turnCar == 270)
-	{
-		SwapHorisontToZ();
-		isTheCarFrontFacingLeft = true;
-	}
-}
-static void TurnRight() {
-	if (turnCar == 0)turnCar = 360;
-	turnCar -= turnAngle;
-	ResetCarRadiuse();
-	rightTurnWasUsed = true;
-	switch (turnCar)
+static void SelectAngle(GLint angle) {
+	switch (angle)
 	{
 	case 0:
 	{
@@ -527,11 +497,24 @@ static void TurnRight() {
 		break;
 	}
 }
+static void TurnLeft() {
+	turnCar += turnAngle;
+	ResetCarRadiuse();
+	SelectAngle(turnCar);
+	rightTurnWasUsed = false;
+}
+static void TurnRight() {
+	ResetCarRadiuse(false);
+	turnCar -= turnAngle;
+	SelectAngle(turnCar);
+	rightTurnWasUsed = true;
+}
 static void MoveForward(const GLfloat speed) {
 	if (isTheCarFrontFacingLeft)
 		* directionHorizontal -= speed;
 	else
 		*directionHorizontal += speed;
+
 	switch (turnCar)
 	{
 	case 45: {
@@ -682,7 +665,7 @@ static void FogMenu(int s) {
 	if (s == ON)
 	{
 		glEnable(GL_FOG);
-		DrawFog();
+		SetFog();
 	}
 	else {
 		glDisable(GL_FOG);
@@ -731,21 +714,23 @@ static void MainMenu() {
 	glutAddMenuEntry("Wyjscie", EXIT);
 #endif
 }
-static void Controls(bool t = true) {
+static void ShowControls(bool t = true) {
 	if (t) {
 		std::cout << Info;
 		return;
 	}
 	FreeConsole();
-}
+	}
 int main(int argc, char* argv[])
 {
-	Controls(false);
+	ShowControls(false);
 
 	glutInit(&argc, argv);
 
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 	glutInitWindowSize(windowWidht, windowHeight);
+
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 	// utworzenie glownego okna programu
 	glutCreateWindow("Projekt £ukasz Kowalik");
