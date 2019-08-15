@@ -1,5 +1,4 @@
 //disable warnings
-#pragma warning( push )
 #pragma warning( disable : 4305 )
 #pragma warning( disable : 4244 )
 #pragma warning( disable : 26451 )
@@ -203,16 +202,16 @@ static void DrawWheels() {
 	glEnable(GL_COLOR_MATERIAL);
 	glColor3fv(Gray);
 
-	glTranslatef(-0.5, -0.86, -0.7);
+	glTranslatef(-0.5f, -0.86f, -0.7f);
 	glutSolidSphere(0.25, 10, 10);
 
-	glTranslatef(0, 0, 0.7);
+	glTranslatef(0, 0, 0.7f);
 	glutSolidSphere(0.25, 10, 10);
 
 	glTranslatef(1, 0, 0);
 	glutSolidSphere(0.25, 10, 10);
 
-	glTranslatef(0, 0, -0.7);
+	glTranslatef(0, 0, -0.7f);
 	glutSolidSphere(0.25, 10, 10);
 
 	glDisable(GL_COLOR_MATERIAL);
@@ -314,7 +313,6 @@ static void DrawCar() {
 	glPopMatrix();
 }
 
-
 static void DrawLights() {
 	GLfloat startPositionX = -8.3f, startPositionY = -7.5f;
 	GLfloat sacale = 0.4f, dystanceZ = -7.5f;
@@ -354,7 +352,7 @@ static void Draw() {
 	DrawHouse();
 	DrawCar();
 	DrawLights();
-	
+
 	TurnOnLight0();
 	TurnOnLight1();
 }
@@ -681,8 +679,7 @@ static void ProjectionMenu(int p) {
 }
 
 static void FogMenu(int s) {
-
-	if (s==ON)
+	if (s == ON)
 	{
 		glEnable(GL_FOG);
 		DrawFog();
@@ -747,7 +744,7 @@ int main(int argc, char* argv[])
 
 	glutInit(&argc, argv);
 
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glutInitWindowSize(windowWidht, windowHeight);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 	// utworzenie glownego okna programu
@@ -773,5 +770,3 @@ int main(int argc, char* argv[])
 
 	return 0;
 }
-
-#pragma warning(pop)
