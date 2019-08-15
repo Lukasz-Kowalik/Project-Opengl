@@ -77,10 +77,15 @@ const static int countOfLights = 10;
 //car movment
 GLfloat positionX = 0.0f, positionZ = 0.0f, positionY = 0.0f, turnAngle = 45.0f;
 GLint turnCar = 0;
-GLfloat *directionHorizontal = &positionX;
-GLfloat *directionVertical = &positionZ;
+GLfloat* directionHorizontal = &positionX;
+GLfloat* directionVertical = &positionZ;
 bool isTheCarFrontFacingLeft = true;
 bool rightTurnWasUsed = false;
+
+//fog
+GLint fog_hint = GL_NICEST;
+auto fog_mode = GL_EXP2;
+GLfloat fog_start = 1, fog_end = 10, fog_density = 0.5;
 
 windowScale Aspect = FULL_WINDOW;
 //projection

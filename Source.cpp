@@ -189,6 +189,15 @@ static void DrawHouse() {
 	glPopMatrix();
 }
 
+static void DrawFog() {
+	glHint(GL_FOG_HINT, fog_hint);
+	glFogf(GL_FOG_MODE, fog_mode);
+	glFogfv(GL_FOG_COLOR, Gray);
+	glFogf(GL_FOG_START, fog_start);
+	glFogf(GL_FOG_END, fog_end);
+	glFogf(GL_FOG_DENSITY, fog_density);
+}
+
 static void DrawWheels() {
 	glPushMatrix();
 	glEnable(GL_COLOR_MATERIAL);
@@ -342,12 +351,10 @@ static void Draw() {
 	DrawGrass();
 	DrawRoad();
 
-	glutSolidSphere(0.15, 20, 20);
-
 	DrawHouse();
 	DrawCar();
 	DrawLights();
-
+	
 	TurnOnLight0();
 	TurnOnLight1();
 }
@@ -676,6 +683,18 @@ static void ProjectionMenu(int p) {
 	Reshape(glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
 }
 
+static void FogMenu(int s) {
+
+	if (s==ON)
+	{
+		glEnable(GL_FOG);
+		DrawFog();
+	}
+	else {
+		glDisable(GL_FOG);
+	}
+	Display();
+}
 static void MainMenu() {
 	//-------------------SCALE---------------------
 	int menuAspect = glutCreateMenu(ScaleMenu);
@@ -686,6 +705,7 @@ static void MainMenu() {
 	glutAddMenuEntry("Obszar renderingu - cale okno", FULL_WINDOW);
 	glutAddMenuEntry("Obszar renderingu - proporcjonalnie", ASPECT_1_1);
 #endif
+
 	//-----------------PROJECTION---------------------
 	int menuactiveProjection = glutCreateMenu(ProjectionMenu);
 #ifdef WIN32
@@ -695,10 +715,22 @@ static void MainMenu() {
 	glutAddMenuEntry("Perspektywiczne Frustum", frustum);
 	glutAddMenuEntry("Perspektywiczne Perspective", perspective);
 #endif
-	//--------------------------MAIN_MENU------------
+
+	//-----------------Fog----------------------------
+	int fogState = glutCreateMenu(FogMenu);
+#ifdef WIN32
+	glutAddMenuEntry("Wl mgle", ON);
+	glutAddMenuEntry("Wyl mgle", OFF);
+#else
+	glutAddMenuEntry("Wl mgle", ON);
+	glutAddMenuEntry("Wyl mgle", OFF);
+#endif
+
+	//--------------MAIN_MENU-------------------------
 	glutCreateMenu(Menu);
 	glutAddSubMenu("Skala obrazu", menuAspect);
 	glutAddSubMenu("Rzutowanie obrazu", menuactiveProjection);
+	glutAddSubMenu("Mgla", fogState);
 #ifdef WIN32
 	glutAddMenuEntry("Wyjscie", EXIT);
 #else
@@ -718,11 +750,11 @@ int main(int argc, char* argv[])
 
 	glutInit(&argc, argv);
 
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 	glutInitWindowSize(windowWidht, windowHeight);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 	// utworzenie glownego okna programu
 	glutCreateWindow("Projekt £ukasz Kowalik");
-
 	glpInitFrame(&frameCamera);
 	TextureLoad();
 
