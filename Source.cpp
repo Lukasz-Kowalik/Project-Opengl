@@ -361,7 +361,6 @@ static void Draw() {
 static void SetLights(unsigned char key) {
 }
 
-//projection begin
 static void projectionFrustrum(int width, int height)
 {
 	// parametry bry³y obcinania
@@ -385,7 +384,6 @@ static void projectionPerspective(int width, int height) {
 		aspect = width / (GLdouble)height;
 	gluPerspective(FOV, aspect, 1.0, wievDistance);
 }
-//projection end
 
 static void Display()
 {
@@ -426,7 +424,6 @@ static void Reshape(int width, int height) {
 	}
 	Display();
 }
-// obsluga menu podrecznego
 static void Menu(int value)
 {
 	if (value == EXIT) {
