@@ -89,7 +89,7 @@ static void DrawGrass() {
 	glColor3fv(White);
 	glNormal3f(0.0f, 0.0f, 1.0f);
 	glTexCoord2f(0, 1);
-
+	glVertex3f(-groundWidth, groundY, groundHeight);
 	glTexCoord2f(0, 0);
 	glVertex3f(groundWidth, groundY, groundHeight);
 
