@@ -6,7 +6,7 @@
 #include "stdafx.h"
 #include "Variables.h"
 
-static void TextureLoad() {
+void TextureLoad() {
 	glEnable(GL_TEXTURE_2D);
 	glGenTextures(amountOfTextures, textures);
 	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
@@ -25,14 +25,14 @@ static void TextureLoad() {
 	}
 }
 
-static void TurnOnLight0() {
+void TurnOnLight0() {
 	glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
 	glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, light0_direction);
 
 	glLightModeli(GL_LIGHT_MODEL_AMBIENT, light0Status);
 	glutPostRedisplay();
 }
-static void TurnOnLight1() {
+void TurnOnLight1() {
 	glLightfv(GL_LIGHT1, GL_POSITION, light1_position);
 	glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, light1_direction);
 	glLightfv(GL_LIGHT1, GL_DIFFUSE, powerfulLight);
@@ -45,7 +45,7 @@ static void TurnOnLight1() {
 	glutPostRedisplay();
 }
 
-static void DrawRoad() {
+void DrawRoad() {
 	glBindTexture(GL_TEXTURE_2D, textures[ROAD]);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
@@ -74,7 +74,7 @@ static void DrawRoad() {
 	glDisable(GL_TEXTURE_2D);
 	glPopMatrix();
 }
-static void DrawGrass() {
+void DrawGrass() {
 	glBindTexture(GL_TEXTURE_2D, textures[GRASS]);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
@@ -102,7 +102,7 @@ static void DrawGrass() {
 	glDisable(GL_TEXTURE_2D);
 	glPopMatrix();
 }
-static void DrawHouse() {
+void DrawHouse() {
 	const float x = 1, y = -1, z = groundHeight / 2;
 
 	glBindTexture(GL_TEXTURE_2D, textures[WALL]);
@@ -185,7 +185,7 @@ static void DrawHouse() {
 	glDisable(GL_COLOR_MATERIAL);
 	glPopMatrix();
 }
-static void DrawWheels() {
+void DrawWheels() {
 	glPushMatrix();
 	glEnable(GL_COLOR_MATERIAL);
 	glColor3fv(Gray);
@@ -205,7 +205,7 @@ static void DrawWheels() {
 	glDisable(GL_COLOR_MATERIAL);
 	glPopMatrix();
 }
-static void DrawBody() {
+void DrawBody() {
 	float xr = 1.0f, xl = -1.0f, x2r = 0.4f, yu = 1.0f, yd = 0.1f, y2u = 1.4f, zf = 0.0f, zb = -0.75f;
 	glPushMatrix();
 	glEnable(GL_COLOR_MATERIAL);
@@ -288,7 +288,7 @@ static void DrawBody() {
 	glDisable(GL_COLOR_MATERIAL);
 	glPopMatrix();
 }
-static void DrawCar() {
+void DrawCar() {
 	const GLfloat scale = 0.5;
 	glPushMatrix();
 	glTranslatef(2.0f, -0.45f, -2.0f);
@@ -300,7 +300,7 @@ static void DrawCar() {
 	DrawWheels();
 	glPopMatrix();
 }
-static void DrawLights() {
+void DrawLights() {
 	GLfloat startPositionX = -8.3f, startPositionY = -7.5f;
 	GLfloat sacale = 0.4f, dystanceZ = -7.5f;
 
@@ -332,10 +332,8 @@ static void DrawLights() {
 		glPopMatrix();
 	}
 }
-
-static void SetLights(unsigned char key) {
-}
-static void SetFog() {
+void DrawShadow(){}
+void SetFog() {
 	glHint(GL_FOG_HINT, fog_hint);
 	glFogf(GL_FOG_MODE, fog_mode);
 	glFogfv(GL_FOG_COLOR, Gray);
@@ -344,7 +342,7 @@ static void SetFog() {
 	glFogf(GL_FOG_DENSITY, fog_density);
 }
 
-static void DrawScene() {
+void DrawScene() {
 	DrawGrass();
 	DrawRoad();
 
@@ -356,7 +354,7 @@ static void DrawScene() {
 	TurnOnLight1();
 }
 
-static void projectionFrustrum(int width, int height)
+void projectionFrustrum(int width, int height)
 {
 	// parametry bry³y obcinania
 	if (Aspect == ASPECT_1_1)
@@ -373,14 +371,14 @@ static void projectionFrustrum(int width, int height)
 	else
 		glFrustum(-2.0, 2.0, -2.0, 2.0, 1.0, wievDistance);
 }
-static void projectionPerspective(int width, int height) {
+void projectionPerspective(int width, int height) {
 	GLdouble aspect = 1;
 	if (height > 0)
 		aspect = width / (GLdouble)height;
 	gluPerspective(FOV, aspect, 1.0, wievDistance);
 }
 
-static void Display()
+void Display()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_MODELVIEW);
@@ -400,7 +398,7 @@ static void Display()
 	glutSwapBuffers();
 }
 
-static void Reshape(int width, int height) {
+void Reshape(int width, int height) {
 	// obszar renderingu - ca³e okno
 	glViewport(0, 0, width, height);
 
@@ -419,14 +417,14 @@ static void Reshape(int width, int height) {
 	}
 	Display();
 }
-static void Menu(int value)
+void Menu(int value)
 {
 	if (value == EXIT) {
 		glDeleteTextures(amountOfTextures, textures);
 		exit(0);
 	}
 }
-static void MouseButton(int button, int state, int x, int y)
+void MouseButton(int button, int state, int x, int y)
 {
 	if (button == GLUT_LEFT_BUTTON)
 	{
@@ -441,7 +439,7 @@ static void MouseButton(int button, int state, int x, int y)
 		}
 	}
 }
-static void MouseMotion(int x, int y)
+void MouseMotion(int x, int y)
 {
 	if (button_state == GLUT_DOWN)
 	{
@@ -453,20 +451,20 @@ static void MouseMotion(int x, int y)
 	}
 }
 
-static void ResetCarRadiuse(bool leftTurn=true) {
+void ResetCarRadiuse(bool leftTurn=true) {
 	if (turnCar >= 360 || turnCar <= -360 && leftTurn)turnCar = 0;
 	else if(turnCar == 0 && !leftTurn)
 		turnCar = 360;
 }
-static void SwapHorisontToZ() {
+void SwapHorisontToZ() {
 	directionHorizontal = &positionZ;
 	directionVertical = &positionX;
 }
-static void SwapHorisontToX() {
+void SwapHorisontToX() {
 	directionHorizontal = &positionX;
 	directionVertical = &positionZ;
 }
-static void SelectAngle(GLint angle) {
+void SelectAngle(GLint angle) {
 	switch (angle)
 	{
 	case 0:
@@ -497,19 +495,19 @@ static void SelectAngle(GLint angle) {
 		break;
 	}
 }
-static void TurnLeft() {
+void TurnLeft() {
 	turnCar += turnAngle;
 	ResetCarRadiuse();
 	SelectAngle(turnCar);
 	rightTurnWasUsed = false;
 }
-static void TurnRight() {
+void TurnRight() {
 	ResetCarRadiuse(false);
 	turnCar -= turnAngle;
 	SelectAngle(turnCar);
 	rightTurnWasUsed = true;
 }
-static void MoveForward(const GLfloat speed) {
+void MoveForward(const GLfloat speed) {
 	if (isTheCarFrontFacingLeft)
 		* directionHorizontal -= speed;
 	else
@@ -554,7 +552,7 @@ static void MoveForward(const GLfloat speed) {
 	}
 }
 
-static void Keyboard(unsigned char key, int x, int y)
+void Keyboard(unsigned char key, int x, int y)
 {
 	switch (key)
 	{
@@ -610,7 +608,7 @@ static void Keyboard(unsigned char key, int x, int y)
 
 	Reshape(glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
 }
-static void SpecialKeys(int key, int x, int y)
+void SpecialKeys(int key, int x, int y)
 {
 	switch (key)
 	{
@@ -632,7 +630,7 @@ static void SpecialKeys(int key, int x, int y)
 	}
 	Display();
 }
-static void ScaleMenu(int sc) {
+void ScaleMenu(int sc) {
 	switch (sc)
 	{
 	case FULL_WINDOW:
@@ -646,7 +644,7 @@ static void ScaleMenu(int sc) {
 	}
 	Reshape(glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
 }
-static void ProjectionMenu(int p) {
+void ProjectionMenu(int p) {
 	switch (p)
 	{
 	case frustum:
@@ -661,7 +659,7 @@ static void ProjectionMenu(int p) {
 	Reshape(glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
 }
 
-static void FogMenu(int s) {
+void FogMenu(int s) {
 	if (s == ON)
 	{
 		glEnable(GL_FOG);
@@ -672,7 +670,7 @@ static void FogMenu(int s) {
 	}
 	Display();
 }
-static void MainMenu() {
+void MainMenu() {
 	//-------------------SCALE---------------------
 	int menuAspect = glutCreateMenu(ScaleMenu);
 #ifdef WIN32
@@ -714,7 +712,7 @@ static void MainMenu() {
 	glutAddMenuEntry("Wyjscie", EXIT);
 #endif
 }
-static void ShowControls(bool t = true) {
+void ShowControls(bool t = true) {
 	if (t) {
 		std::cout << Info;
 		return;

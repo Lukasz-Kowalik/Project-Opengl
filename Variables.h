@@ -111,10 +111,10 @@ const char* Info = R"(
 		  		-> 1-2 - wl/wyl oswietlenie 1-2
 
 					    Sterowanie samochodem:
-						x w - do przody
-						x s - do tylu
-						x a - lewo
-						x d - prawo
+						-> w - do przody
+						-> s - do tylu
+						-> a - lewo
+						-> d - prawo
 
 						   -MYSZ-
 		  		-> mysz - przemieszczanie szceny
