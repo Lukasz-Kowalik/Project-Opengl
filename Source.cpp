@@ -387,6 +387,9 @@ void DrawShadows() {
 	glEnable(GL_DEPTH_TEST);
 }
 void DrawScene() {
+	glEnable(GL_BLEND);
+	glEnable(GL_COLOR_MATERIAL);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	DrawGrass();
 	DrawRoad();
 
@@ -398,8 +401,8 @@ void DrawScene() {
 	TurnOnLight0();
 	TurnOnLight1();
 
-	glDisable(GL_BLEND);
 	glDisable(GL_COLOR_MATERIAL);
+	glDisable(GL_BLEND);
 }
 
 void projectionFrustrum(int width, int height)
