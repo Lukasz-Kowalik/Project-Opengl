@@ -25,14 +25,16 @@ void TextureLoad()
 	}
 }
 
-void TurnOnLight0() {
+void TurnOnLight0()
+{
 	glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
 	glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, light0_direction);
-
 	glLightModeli(GL_LIGHT_MODEL_AMBIENT, light0Status);
+
 	glutPostRedisplay();
 }
-void TurnOnLight1() {
+void TurnOnLight1()
+{
 	glLightfv(GL_LIGHT1, GL_POSITION, light1_position);
 	glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, light1_direction);
 	glLightfv(GL_LIGHT1, GL_DIFFUSE, powerfulLight);
@@ -45,20 +47,20 @@ void TurnOnLight1() {
 	glutPostRedisplay();
 }
 
-void DrawRoad() {
-	glBindTexture(GL_TEXTURE_2D, textures[ROAD]);
+void DrawGrass()
+{
+	glBindTexture(GL_TEXTURE_2D, textures[GRASS]);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 
+	glEnable(GL_TEXTURE_2D);
 	glColor3fv(White);
-	glTranslatef(0, 0, 6);
+	glTranslatef(0, -1, -4);
 	glPushMatrix();
 
-	glEnable(GL_TEXTURE_2D);
-
 	glBegin(GL_QUADS);
-	glColor3fv(White);
 	glNormal3f(0.0f, 0.0f, 1.0f);
+
 	glTexCoord2f(0, 1);
 	glVertex3f(-groundWidth, groundY, groundHeight);
 
@@ -70,26 +72,28 @@ void DrawRoad() {
 
 	glTexCoord2f(1, 1);
 	glVertex3f(-groundWidth, groundY, -groundHeight);
+
 	glEnd();
 	glDisable(GL_TEXTURE_2D);
 	glPopMatrix();
 }
-void DrawGrass() {
-	glBindTexture(GL_TEXTURE_2D, textures[GRASS]);
+void DrawRoad()
+{
+	glBindTexture(GL_TEXTURE_2D, textures[ROAD]);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 
+	glEnable(GL_TEXTURE_2D);
 	glColor3fv(White);
-	glTranslatef(0, -1, -4);
+	glTranslatef(0, 0, 6);
 	glPushMatrix();
 
-	glEnable(GL_TEXTURE_2D);
-
 	glBegin(GL_QUADS);
-	glColor3fv(White);
 	glNormal3f(0.0f, 0.0f, 1.0f);
+
 	glTexCoord2f(0, 1);
 	glVertex3f(-groundWidth, groundY, groundHeight);
+
 	glTexCoord2f(0, 0);
 	glVertex3f(groundWidth, groundY, groundHeight);
 
@@ -303,32 +307,28 @@ void DrawLights() {
 	{
 		glPushMatrix();
 		glDisable(GL_LIGHTING);
-		glEnable(GL_BLEND);
-		glEnable(GL_COLOR_MATERIAL);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		glScalef(sacale, sacale, sacale);
 		glTranslatef(startPositionX + i * lightMultiplayer, -0.3f, dystanceZ);
 		glColor4fv(LightGoldenrodYellow2);
 		glTranslatef(0.3f, -0.5f, -0.5f);
 		glutSolidSphere(0.15, 20, 20);
-		glDisable(GL_BLEND);
 
 		glPopMatrix();
 		glPushMatrix();
 		glScalef(sacale, sacale, sacale);
 		glTranslatef(startPositionX + 0.3f + i * lightMultiplayer, -1.7f, dystanceZ - 0.5f);
+		//light pillar
 		glScaled(0.2, 3, 0.15);
 		glColor3fv(DarkGray);
 		glutSolidCube(0.5);
 
-		glDisable(GL_COLOR_MATERIAL);
 		glEnable(GL_LIGHTING);
 		glPopMatrix();
 	}
 }
-void DrawShadow(){}
-void SetFog() {
+void SetFog()
+{
 	glHint(GL_FOG_HINT, fog_hint);
 	glFogf(GL_FOG_MODE, fog_mode);
 	glFogfv(GL_FOG_COLOR, Gray);
@@ -343,33 +343,36 @@ void DrawScene() {
 
 	DrawHouse();
 	DrawCar();
-	DrawLights();
+	DrawStreetLights();
 
 	TurnOnLight0();
 	TurnOnLight1();
+
+	glDisable(GL_BLEND);
+	glDisable(GL_COLOR_MATERIAL);
 }
 
 void projectionFrustrum(int width, int height)
 {
-	// parametry bry³y obcinania
-	if (Aspect == ASPECT_1_1)
+	if (aspect == ASPECT_1_1)
 	{
-		// wysokoœæ okna wiêksza od wysokoœci okna
-		if (width < height && width > 0)
+		if (width < height && width > 0) {
 			glFrustum(-2.0, 2.0, -2.0 * height / width, 2.0 * height / width, 1.0, wievDistance);
-		else
-
-			// szerokoœæ okna wiêksza lub równa wysokoœci okna
-			if (width >= height && height > 0)
-				glFrustum(-2.0 * width / height, 2.0 * width / height, -2.0, 2.0, 1.0, wievDistance);
+		}
+		else if (width >= height && height > 0) {
+			glFrustum(-2.0 * width / height, 2.0 * width / height, -2.0, 2.0, 1.0, wievDistance);
+		}
 	}
-	else
+	else {
 		glFrustum(-2.0, 2.0, -2.0, 2.0, 1.0, wievDistance);
+	}
 }
-void projectionPerspective(int width, int height) {
+void projectionPerspective(int width, int height)
+{
 	GLdouble aspect = 1;
-	if (height > 0)
+	if (height > 0) {
 		aspect = width / (GLdouble)height;
+	}
 	gluPerspective(FOV, aspect, 1.0, wievDistance);
 }
 
@@ -378,6 +381,7 @@ void Display()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+
 	glEnable(GL_LIGHTING);
 	glEnable(GL_DEPTH_TEST);
 	glpApplyCameraTransform(&frameCamera);
