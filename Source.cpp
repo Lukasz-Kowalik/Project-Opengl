@@ -120,7 +120,7 @@ void DrawHouse(bool isDrawnShadow = false)
 
 	glPushMatrix();
 	glTranslatef(0, 0, -5);
-
+	isDrawnShadow ? glColor4fv(BlackShadow) : glColor3fv(Wheat);
 	glEnable(GL_TEXTURE_2D);
 
 	//right wall
@@ -180,8 +180,8 @@ void DrawHouse(bool isDrawnShadow = false)
 	glEnd();
 
 	glDisable(GL_TEXTURE_2D);
-	glEnable(GL_COLOR_MATERIAL);
-	glColor3fv(Gray);
+	//roof
+	isDrawnShadow ? glColor4fv(BlackShadow) : glColor3fv(Gray);
 	glBegin(GL_QUADS);
 	glVertex3f(x, -y, z);
 	glVertex3f(-x, -y, z);
