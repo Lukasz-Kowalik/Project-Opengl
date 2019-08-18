@@ -105,25 +105,27 @@ void DrawRoad()
 
 	glTexCoord2f(1, 1);
 	glVertex3f(-groundWidth, groundY, -groundHeight);
+
 	glEnd();
 	glDisable(GL_TEXTURE_2D);
 	glPopMatrix();
 }
-void DrawHouse() {
-	const float x = 1, y = -1, z = groundHeight / 2;
+void DrawHouse(bool isDrawnShadow = false)
+{
+	const GLfloat x = 1, y = -1, z = groundHeight / 2;
 
 	glBindTexture(GL_TEXTURE_2D, textures[WALL]);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 
-	glColor3fv(White);
 	glPushMatrix();
 	glTranslatef(0, 0, -5);
 
 	glEnable(GL_TEXTURE_2D);
-	//kwadrat
+
+	//right wall
 	glBegin(GL_QUADS);
-	glColor3fv(White);
+
 	glNormal3f(0.0f, 0.0f, 1.0f);
 	glTexCoord2f(0, 0);
 	glVertex3f(x, y, z);
@@ -287,7 +289,6 @@ void DrawBody() {
 	glVertex3f(x2r, yu, zb);
 
 	glEnd();
-	glDisable(GL_COLOR_MATERIAL);
 	glPopMatrix();
 }
 void DrawCar() {
