@@ -315,7 +315,7 @@ void DrawCar(bool isDrawnShadow = false) {
 	}
 	glPopMatrix();
 }
-void DrawLights() {
+void DrawStreetLights(bool isDrawnShadow = false) {
 	GLfloat startPositionX = -8.3f, startPositionY = -7.5f;
 	GLfloat sacale = 0.4f, dystanceZ = -7.5f;
 
@@ -326,7 +326,8 @@ void DrawLights() {
 
 		glScalef(sacale, sacale, sacale);
 		glTranslatef(startPositionX + i * lightMultiplayer, -0.3f, dystanceZ);
-		glColor4fv(LightGoldenrodYellow2);
+		isDrawnShadow ? glColor4fv(BlackShadow) : glColor4fv(LightGoldenrodYellow2);
+		//light bulb
 		glTranslatef(0.3f, -0.5f, -0.5f);
 		glutSolidSphere(0.15, 20, 20);
 
@@ -336,7 +337,7 @@ void DrawLights() {
 		glTranslatef(startPositionX + 0.3f + i * lightMultiplayer, -1.7f, dystanceZ - 0.5f);
 		//light pillar
 		glScaled(0.2, 3, 0.15);
-		glColor3fv(DarkGray);
+		isDrawnShadow ? glColor4fv(BlackShadow) : glColor3fv(DarkGray);
 		glutSolidCube(0.5);
 
 		glEnable(GL_LIGHTING);
