@@ -198,7 +198,8 @@ void DrawHouse(bool isDrawnShadow = false)
 	glEnd();
 	glPopMatrix();
 }
-void DrawWheels() {
+void DrawWheels(bool isDrawnShadow = false) {
+	isDrawnShadow ? glColor4fv(BlackShadow) : glColor3fv(Wheat);
 	glPushMatrix();
 
 	glTranslatef(-0.5f, -0.86f, -0.7f);
@@ -213,14 +214,13 @@ void DrawWheels() {
 	glTranslatef(0, 0, -0.7f);
 	glutSolidSphere(0.25, 10, 10);
 
-	glDisable(GL_COLOR_MATERIAL);
 	glPopMatrix();
 }
-void DrawBody() {
+void DrawBody(bool isDrawnShadow = false) {
 	float xr = 1.0f, xl = -1.0f, x2r = 0.4f, yu = 1.0f, yd = 0.1f, y2u = 1.4f, zf = 0.0f, zb = -0.75f;
 	glPushMatrix();
-	glEnable(GL_COLOR_MATERIAL);
-	glColor3fv(Yellow);
+
+	isDrawnShadow ? glColor4fv(BlackShadow) : glColor3fv(Yellow);
 	glTranslatef(0, -1, 0);
 	glBegin(GL_QUADS);
 	//back wall
@@ -262,14 +262,14 @@ void DrawBody() {
 	glVertex3f(xr, yu, zf);
 
 	//left wall
-	glColor3fv(Red);
+	isDrawnShadow ? glColor4fv(BlackShadow) : glColor3fv(Red);
 	glVertex3f(xl, yu, zb);
 	glVertex3f(xl, yd, zb);
 	glVertex3f(xl, yd, zf);
 	glVertex3f(xl, yu, zf);
 
 	//car window
-	glColor3fv(Aqua);
+	isDrawnShadow ? glColor4fv(BlackShadow) : glColor3fv(Aqua);
 
 	//left
 	glVertex3f(-x2r, yu, zb);
@@ -298,16 +298,21 @@ void DrawBody() {
 	glEnd();
 	glPopMatrix();
 }
-void DrawCar() {
+void DrawCar(bool isDrawnShadow = false) {
 	const GLfloat scale = 0.5;
 	glPushMatrix();
 	glTranslatef(2.0f, -0.45f, -2.0f);
 	glTranslatef(positionX, positionY, positionZ);
 	glRotatef(turnCar, 0, 1, 0);
 	glScalef(scale, scale, scale);
-
-	DrawBody();
-	DrawWheels();
+	if (isDrawnShadow) {
+		DrawBody(true);
+		DrawWheels(true);
+	}
+	else {
+		DrawBody();
+		DrawWheels();
+	}
 	glPopMatrix();
 }
 void DrawLights() {
