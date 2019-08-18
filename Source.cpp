@@ -6,11 +6,11 @@
 #include "stdafx.h"
 #include "Variables.h"
 
-void TextureLoad() {
+void TextureLoad()
+{
 	glEnable(GL_TEXTURE_2D);
 	glGenTextures(amountOfTextures, textures);
 	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 	for (int i = 0; i < amountOfTextures; i++)
@@ -132,8 +132,6 @@ void DrawHouse() {
 	glEnd();
 	//left wall
 	glBegin(GL_QUADS);
-	glColor3fv(White);
-	glNormal3f(0.0f, 0.0f, 1.0f);
 	glTexCoord2f(0, 0);
 	glVertex3f(-x, y, z);
 
@@ -148,19 +146,17 @@ void DrawHouse() {
 	glEnd();
 	glDisable(GL_TEXTURE_2D);
 	glPopMatrix();
+
 	//front wall
-	glBindTexture(GL_TEXTURE_2D, textures[WALL2]);
+	glBindTexture(GL_TEXTURE_2D, textures[FRONT_WALL]);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 
-	glColor3fv(White);
 	glPushMatrix();
 	glTranslatef(0, 0, -5.0f);
 	glEnable(GL_TEXTURE_2D);
 
 	glBegin(GL_QUADS);
-	glColor3fv(White);
-	glNormal3f(0.0f, 0.0f, 1.0f);
 	glTexCoord2f(1, 1);
 	glVertex3f(-x, -y, z);
 
@@ -173,6 +169,7 @@ void DrawHouse() {
 	glTexCoord2f(1, 0);
 	glVertex3f(-x, y, z);
 	glEnd();
+
 	glDisable(GL_TEXTURE_2D);
 	glEnable(GL_COLOR_MATERIAL);
 	glColor3fv(Gray);
@@ -187,8 +184,6 @@ void DrawHouse() {
 }
 void DrawWheels() {
 	glPushMatrix();
-	glEnable(GL_COLOR_MATERIAL);
-	glColor3fv(Gray);
 
 	glTranslatef(-0.5f, -0.86f, -0.7f);
 	glutSolidSphere(0.25, 10, 10);
@@ -398,8 +393,9 @@ void Display()
 	glutSwapBuffers();
 }
 
-void Reshape(int width, int height) {
-	// obszar renderingu - ca³e okno
+void Reshape(int width, int height)
+{
+	// render full window
 	glViewport(0, 0, width, height);
 
 	glMatrixMode(GL_PROJECTION);
@@ -428,10 +424,7 @@ void MouseButton(int button, int state, int x, int y)
 {
 	if (button == GLUT_LEFT_BUTTON)
 	{
-		// zapamiêtanie stanu lewego przycisku myszki
 		button_state = state;
-
-		// zapamiêtanie po³o¿enia kursora myszki
 		if (state == GLUT_DOWN)
 		{
 			button_x = x;
@@ -451,20 +444,29 @@ void MouseMotion(int x, int y)
 	}
 }
 
-void ResetCarRadiuse(bool leftTurn=true) {
-	if (turnCar >= 360 || turnCar <= -360 && leftTurn)turnCar = 0;
-	else if(turnCar == 0 && !leftTurn)
+void ResetCarRadiuse(bool leftTurn = true)
+{
+	if (turnCar >= 360 || turnCar <= -360 && leftTurn)
+	{
+		turnCar = 0;
+	}
+	else if (turnCar == 0 && !leftTurn)
+	{
 		turnCar = 360;
+	}
 }
-void SwapHorisontToZ() {
+void SwapHorisontToZ()
+{
 	directionHorizontal = &positionZ;
 	directionVertical = &positionX;
 }
-void SwapHorisontToX() {
+void SwapHorisontToX()
+{
 	directionHorizontal = &positionX;
 	directionVertical = &positionZ;
 }
-void SelectAngle(GLint angle) {
+void SelectAngle(GLint angle)
+{
 	switch (angle)
 	{
 	case 0:
@@ -495,19 +497,22 @@ void SelectAngle(GLint angle) {
 		break;
 	}
 }
-void TurnLeft() {
+void TurnLeft()
+{
 	turnCar += turnAngle;
 	ResetCarRadiuse();
 	SelectAngle(turnCar);
 	rightTurnWasUsed = false;
 }
-void TurnRight() {
+void TurnRight()
+{
 	ResetCarRadiuse(false);
 	turnCar -= turnAngle;
 	SelectAngle(turnCar);
 	rightTurnWasUsed = true;
 }
-void MoveForward(const GLfloat speed) {
+void MoveForward(const GLfloat speed)
+{
 	if (isTheCarFrontFacingLeft)
 		* directionHorizontal -= speed;
 	else
@@ -515,8 +520,10 @@ void MoveForward(const GLfloat speed) {
 
 	switch (turnCar)
 	{
-	case 45: {
-		if (rightTurnWasUsed) {
+	case 45:
+	{
+		if (rightTurnWasUsed)
+		{
 			*directionVertical -= speed;
 		}
 		else
@@ -526,22 +533,27 @@ void MoveForward(const GLfloat speed) {
 		}
 		break;
 	}
-	case 135: {
+	case 135:
+	{
 		*directionHorizontal += speed;
 		*directionVertical += speed;
 		break;
 	}
-	case 225: {
-		if (rightTurnWasUsed) {
+	case 225:
+	{
+		if (rightTurnWasUsed)
+		{
 			*directionVertical += speed;
 		}
-		else {
+		else
+		{
 			*directionHorizontal += speed;
 			*directionVertical -= speed;
 		}
 		break;
 	}
-	case 315: {
+	case 315:
+	{
 		*directionHorizontal -= speed;
 		*directionVertical -= speed;
 		break;
@@ -557,19 +569,23 @@ void Keyboard(unsigned char key, int x, int y)
 	switch (key)
 	{
 	case'-': {
-		if (activeProjection == perspective && FOV < 180) {
+		if (activeProjection == perspective && FOV < 180)
+		{
 			FOV++;
 		}
-		else if (scale > 0.1f) {
+		else if (scale > 0.1f)
+		{
 			scale -= 0.1f;
 		}
 		break;
 	}
 	case'+': {
-		if (activeProjection == perspective && FOV > 0) {
+		if (activeProjection == perspective && FOV > 0)
+		{
 			FOV--;
 		}
-		else {
+		else
+		{
 			scale += 0.1f;
 		}
 		break;
@@ -579,7 +595,8 @@ void Keyboard(unsigned char key, int x, int y)
 	case'a': { TurnLeft();				break; }
 	case'd': { TurnRight();				break; }
 	case '1': {
-		if (light0Status == L0OFF) {
+		if (light0Status == L0OFF)
+		{
 			light0Status = L0ON;
 			glEnable(GL_LIGHT0);
 		}
@@ -591,7 +608,8 @@ void Keyboard(unsigned char key, int x, int y)
 		break;
 	}
 	case '2': {
-		if (light1Status == L1OFF) {
+		if (light1Status == L1OFF)
+		{
 			light1Status = L1ON;
 			glEnable(GL_LIGHT1);
 		}
@@ -605,7 +623,6 @@ void Keyboard(unsigned char key, int x, int y)
 	default:
 		break;
 	}
-
 	Reshape(glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
 }
 void SpecialKeys(int key, int x, int y)
@@ -630,21 +647,23 @@ void SpecialKeys(int key, int x, int y)
 	}
 	Display();
 }
-void ScaleMenu(int sc) {
+void ScaleMenu(int sc)
+{
 	switch (sc)
 	{
 	case FULL_WINDOW:
-		Aspect = FULL_WINDOW;
+		aspect = FULL_WINDOW;
 		break;
 	case ASPECT_1_1:
-		Aspect = ASPECT_1_1;
+		aspect = ASPECT_1_1;
 		break;
 	default:
 		break;
 	}
 	Reshape(glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
 }
-void ProjectionMenu(int p) {
+void ProjectionMenu(int p)
+{
 	switch (p)
 	{
 	case frustum:
@@ -659,18 +678,21 @@ void ProjectionMenu(int p) {
 	Reshape(glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
 }
 
-void FogMenu(int s) {
+void FogMenu(int s)
+{
 	if (s == ON)
 	{
 		glEnable(GL_FOG);
 		SetFog();
 	}
-	else {
+	else
+	{
 		glDisable(GL_FOG);
 	}
 	Display();
 }
-void MainMenu() {
+void MainMenu()
+{
 	//-------------------SCALE---------------------
 	int menuAspect = glutCreateMenu(ScaleMenu);
 #ifdef WIN32
@@ -691,7 +713,7 @@ void MainMenu() {
 	glutAddMenuEntry("Perspektywiczne Perspective", perspective);
 #endif
 
-	//-----------------Fog----------------------------
+	//-----------------FOG----------------------------
 	int fogState = glutCreateMenu(FogMenu);
 #ifdef WIN32
 	glutAddMenuEntry("Wl mgle", ON);
@@ -712,19 +734,20 @@ void MainMenu() {
 	glutAddMenuEntry("Wyjscie", EXIT);
 #endif
 }
-void ShowControls(bool t = true) {
-	if (t) {
+void ShowControls(bool isShown = true)
+{
+	if (isShown)
+	{
 		std::cout << Info;
 		return;
 	}
 	FreeConsole();
-	}
+}
 int main(int argc, char* argv[])
 {
 	ShowControls(false);
 
 	glutInit(&argc, argv);
-
 
 	glutInitWindowSize(windowWidht, windowHeight);
 
@@ -746,10 +769,7 @@ int main(int argc, char* argv[])
 
 	MainMenu();
 
-	// okreœlenie przycisku myszki obslugujacej menu podreczne
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
-	// wprowadzenie programu do obslugi petli komunikatow
 	glutMainLoop();
-
 	return 0;
 }
