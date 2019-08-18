@@ -32,6 +32,8 @@ void TurnOnLight0()
 	glLightModeli(GL_LIGHT_MODEL_AMBIENT, light0Status);
 
 	glutPostRedisplay();
+	glpMakeShadowMatrix(vPoints, light0_position, ShadowMatrixForLight0);
+	glpMakeShadowMatrix(vPoints, light0_position, ShadowMatrixForLight1AndLight2);
 }
 void TurnOnLight1()
 {
@@ -43,7 +45,8 @@ void TurnOnLight1()
 	glLightf(GL_LIGHT1, GL_SPOT_CUTOFF, 35.0);
 	glLightf(GL_LIGHT1, GL_SPOT_EXPONENT, 0.5);
 	glLightModeli(GL_LIGHT_MODEL_AMBIENT, light1Status);
-
+	glpMakeShadowMatrix(vPoints, light1_position, ShadowMatrixForLight1);
+	glpMakeShadowMatrix(vPoints, light1_position, ShadowMatrixForLight1AndLight2);
 	glutPostRedisplay();
 }
 
