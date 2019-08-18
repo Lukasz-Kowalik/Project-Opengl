@@ -353,7 +353,7 @@ void SetFog()
 	glFogf(GL_FOG_END, fog_end);
 	glFogf(GL_FOG_DENSITY, fog_density);
 }
-void SelectingMatrices()
+void SelectingShadowMatrices()
 {
 	if (light1Status == L1OFF && light0Status == L0ON)
 	{
@@ -376,7 +376,7 @@ void DrawShadows() {
 	glDisable(GL_LIGHTING);
 	glPushMatrix();
 
-	SelectingMatrices();
+	SelectingShadowMatrices();
 
 	DrawHouse(true);
 	DrawCar(true);
