@@ -9,6 +9,7 @@ constexpr GLfloat groundY = -1.0f;
 constexpr GLfloat groundHeight = 3.0f;
 constexpr GLfloat groundWidth = 9.0f;
 constexpr GLfloat carSpeed = 0.5f;
+constexpr int countOfLights = 10;
 enum {
 	EXIT,
 	ON,
