@@ -188,7 +188,14 @@ void DrawHouse(bool isDrawnShadow = false)
 	glVertex3f(-x, -y, -z);
 	glVertex3f(x, -y, -z);
 	glEnd();
-	glDisable(GL_COLOR_MATERIAL);
+	//back wall
+	glColor3fv(Black);
+	glBegin(GL_QUADS);
+	glVertex3f(-x, -y, -z);
+	glVertex3f(x, -y, -z);
+	glVertex3f(x, y, -z);
+	glVertex3f(-x, y, -z);
+	glEnd();
 	glPopMatrix();
 }
 void DrawWheels() {
