@@ -353,11 +353,44 @@ void SetFog()
 	glFogf(GL_FOG_END, fog_end);
 	glFogf(GL_FOG_DENSITY, fog_density);
 }
+void SelectingMatrices()
+{
+	if (light1Status == L1OFF && light0Status == L0ON)
+	{
+		glMultMatrixf(ShadowMatrixForLight0);
+	}
+	else if (light1Status == L1ON && light0Status == L0OFF)
+	{
+		glMultMatrixf(ShadowMatrixForLight1);
+	}
+	else if (light1Status == L1ON && light0Status == L0ON)
+	{
+		glMultMatrixf(ShadowMatrixForLight1AndLight2);
+	}
+	else {
+		glMultMatrixf(ShadowMatrixEmpty);
+	}
+}
+void DrawShadows() {
+	glDisable(GL_DEPTH_TEST);
+	glDisable(GL_LIGHTING);
+	glPushMatrix();
 
+	SelectingMatrices();
+
+	DrawHouse(true);
+	DrawCar(true);
+	DrawStreetLights(true);
+
+	glPopMatrix();
+	glEnable(GL_LIGHTING);
+	glEnable(GL_DEPTH_TEST);
+}
 void DrawScene() {
 	DrawGrass();
 	DrawRoad();
 
+	DrawShadows();
 	DrawHouse();
 	DrawCar();
 	DrawStreetLights();
