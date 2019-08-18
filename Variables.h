@@ -9,6 +9,7 @@ constexpr GLfloat groundY = -1.0f;
 constexpr GLfloat groundHeight = 3.0f;
 constexpr GLfloat groundWidth = 9.0f;
 constexpr GLfloat carSpeed = 0.5f;
+constexpr int countOfLights = 10;
 enum {
 	EXIT,
 	ON,
@@ -17,7 +18,7 @@ enum {
 };
 enum textures {
 	WALL,
-	WALL2,
+	FRONT_WALL,
 	ROAD,
 	GRASS
 };
@@ -30,6 +31,7 @@ enum projection {
 	frustum,
 	perspective
 };
+
 //light
 enum lights {
 	L0ON,
@@ -51,31 +53,37 @@ GLfloat light1_position[] = { -1,-0.75,-2.5,1 };
 GLfloat light1_direction[] = { 1,0,0 };
 GLfloat light1_specular[] = { 1,1,1,1 };
 
-// macierze cieni typu matrix
-GLPMatrix Macierz_cieni;
-GLPMatrix Macierz_cieni2;
-// kolor cienia
-GLfloat fKolor_cienia[] = { 0.0f,0.0f,0.0f,0.0f };
-// cien powinien znajdowac sie troszke nad podloga
-GLPVector3 vPoints[3] = { {0.0f, -1.9f,  0.0f},
-						 {10.0f, -1.9f,  0.0f},
-						  {5.0f, -1.9f, -5.0f} };
-GLPVector3 vPoints2[3] = { {0.0f, -1.5f,  0.0f},
-						  {10.0f, -1.5f,  0.0f},
-						   {5.0f, -1.5f, -5.0f} };
-GLPVector3 bezCienia[3] = { {0.0f, -50.5f,  0.0f},
-						   {10.0f, -50.5f,  0.0f},
-						   { 5.0f, -50.5f, -5.0f} };
+//shadow matrices
+GLPMatrix ShadowMatrixForLight0;
+GLPMatrix ShadowMatrixForLight1;
+GLPMatrix ShadowMatrixForLight1AndLight2;
+GLPMatrix ShadowMatrixEmpty;
+
+GLPVector3 vPoints[3] = {
+	{-1.0f,-1.0f,-1.5f},
+	{1.0f ,-1.0f,-1.5f},
+	{0.0f ,-1.0f, -3.0f}
+};
+GLPVector3 vPoints2[3] = {
+	{0.0f, -1.5f,  0.0f},
+	{10.0f, -1.5f,  0.0f},
+	{5.0f, -1.5f, -5.0f}
+};
+GLPVector3 bezCienia[3] = {
+	{0.0f, -50.5f,  0.0f},
+	{10.0f, -50.5f,  0.0f},
+	{ 5.0f, -50.5f, -5.0f}
+};
 
 //camera
 GLPFrame frameCamera;
+
 //textures
 GLuint textures[amountOfTextures];
 const char* textureFile[amountOfTextures] = { "textures/brickwall.tga","textures/brickwall2.tga","textures/road.tga","textures/grass.tga" };
 
-const static int countOfLights = 10;
 //car movment
-GLfloat positionX = 0.0f, positionZ = 0.0f, positionY = 0.0f ; 
+GLfloat positionX = 0.0f, positionZ = 0.0f, positionY = 0.0f;
 GLint turnCar = 0, turnAngle = 45;;
 GLfloat* directionHorizontal = &positionX;
 GLfloat* directionVertical = &positionZ;
@@ -87,12 +95,14 @@ GLint fog_hint = GL_NICEST;
 GLfloat fog_start = 1, fog_end = 10, fog_density = 0.5,
 fog_mode = GL_EXP2;
 
-windowScale Aspect = FULL_WINDOW;
+windowScale aspect = FULL_WINDOW;
+
 //projection
 projection activeProjection = perspective;
 GLdouble FOV = 90;
 GLfloat scale = 1.0;
 float translatex = 0.0, translatey = 0.0;
+
 //mouse motion
 int button_state = GLUT_UP;
 int button_x, button_y;

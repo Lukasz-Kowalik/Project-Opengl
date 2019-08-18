@@ -53,7 +53,10 @@ const GLfloat Black[ 4 ] =
 {
     0.000000, 0.000000, 0.000000, 1.000000
 };
-
+const GLfloat BlackShadow[4] =
+{
+	0.000000, 0.000000, 0.000000, 0.500000
+};
 const GLfloat BlanchedAlmond[ 4 ] =
 {
     1.000000, 0.921569, 0.803922, 1.000000

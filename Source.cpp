@@ -6,11 +6,11 @@
 #include "stdafx.h"
 #include "Variables.h"
 
-void TextureLoad() {
+void TextureLoad()
+{
 	glEnable(GL_TEXTURE_2D);
 	glGenTextures(amountOfTextures, textures);
 	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 	for (int i = 0; i < amountOfTextures; i++)
@@ -25,14 +25,18 @@ void TextureLoad() {
 	}
 }
 
-void TurnOnLight0() {
+void TurnOnLight0()
+{
 	glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
 	glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, light0_direction);
-
 	glLightModeli(GL_LIGHT_MODEL_AMBIENT, light0Status);
+
 	glutPostRedisplay();
+	glpMakeShadowMatrix(vPoints, light0_position, ShadowMatrixForLight0);
+	glpMakeShadowMatrix(vPoints, light0_position, ShadowMatrixForLight1AndLight2);
 }
-void TurnOnLight1() {
+void TurnOnLight1()
+{
 	glLightfv(GL_LIGHT1, GL_POSITION, light1_position);
 	glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, light1_direction);
 	glLightfv(GL_LIGHT1, GL_DIFFUSE, powerfulLight);
@@ -41,55 +45,28 @@ void TurnOnLight1() {
 	glLightf(GL_LIGHT1, GL_SPOT_CUTOFF, 35.0);
 	glLightf(GL_LIGHT1, GL_SPOT_EXPONENT, 0.5);
 	glLightModeli(GL_LIGHT_MODEL_AMBIENT, light1Status);
-
+	glpMakeShadowMatrix(vPoints, light1_position, ShadowMatrixForLight1);
+	glpMakeShadowMatrix(vPoints, light1_position, ShadowMatrixForLight1AndLight2);
 	glutPostRedisplay();
 }
 
-void DrawRoad() {
-	glBindTexture(GL_TEXTURE_2D, textures[ROAD]);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-
-	glColor3fv(White);
-	glTranslatef(0, 0, 6);
-	glPushMatrix();
-
-	glEnable(GL_TEXTURE_2D);
-
-	glBegin(GL_QUADS);
-	glColor3fv(White);
-	glNormal3f(0.0f, 0.0f, 1.0f);
-	glTexCoord2f(0, 1);
-	glVertex3f(-groundWidth, groundY, groundHeight);
-
-	glTexCoord2f(0, 0);
-	glVertex3f(groundWidth, groundY, groundHeight);
-
-	glTexCoord2f(1, 0);
-	glVertex3f(groundWidth, groundY, -groundHeight);
-
-	glTexCoord2f(1, 1);
-	glVertex3f(-groundWidth, groundY, -groundHeight);
-	glEnd();
-	glDisable(GL_TEXTURE_2D);
-	glPopMatrix();
-}
-void DrawGrass() {
+void DrawGrass()
+{
 	glBindTexture(GL_TEXTURE_2D, textures[GRASS]);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 
+	glEnable(GL_TEXTURE_2D);
 	glColor3fv(White);
 	glTranslatef(0, -1, -4);
 	glPushMatrix();
 
-	glEnable(GL_TEXTURE_2D);
-
 	glBegin(GL_QUADS);
-	glColor3fv(White);
 	glNormal3f(0.0f, 0.0f, 1.0f);
+
 	glTexCoord2f(0, 1);
 	glVertex3f(-groundWidth, groundY, groundHeight);
+
 	glTexCoord2f(0, 0);
 	glVertex3f(groundWidth, groundY, groundHeight);
 
@@ -98,25 +75,57 @@ void DrawGrass() {
 
 	glTexCoord2f(1, 1);
 	glVertex3f(-groundWidth, groundY, -groundHeight);
+
 	glEnd();
 	glDisable(GL_TEXTURE_2D);
 	glPopMatrix();
 }
-void DrawHouse() {
-	const float x = 1, y = -1, z = groundHeight / 2;
+void DrawRoad()
+{
+	glBindTexture(GL_TEXTURE_2D, textures[ROAD]);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+
+	glEnable(GL_TEXTURE_2D);
+	glColor3fv(White);
+	glTranslatef(0, 0, 6);
+	glPushMatrix();
+
+	glBegin(GL_QUADS);
+	glNormal3f(0.0f, 0.0f, 1.0f);
+
+	glTexCoord2f(0, 1);
+	glVertex3f(-groundWidth, groundY, groundHeight);
+
+	glTexCoord2f(0, 0);
+	glVertex3f(groundWidth, groundY, groundHeight);
+
+	glTexCoord2f(1, 0);
+	glVertex3f(groundWidth, groundY, -groundHeight);
+
+	glTexCoord2f(1, 1);
+	glVertex3f(-groundWidth, groundY, -groundHeight);
+
+	glEnd();
+	glDisable(GL_TEXTURE_2D);
+	glPopMatrix();
+}
+void DrawHouse(bool isDrawnShadow = false)
+{
+	const GLfloat x = 1, y = -1, z = groundHeight / 2;
 
 	glBindTexture(GL_TEXTURE_2D, textures[WALL]);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 
-	glColor3fv(White);
 	glPushMatrix();
 	glTranslatef(0, 0, -5);
-
+	isDrawnShadow ? glColor4fv(BlackShadow) : glColor3fv(Wheat);
 	glEnable(GL_TEXTURE_2D);
-	//kwadrat
+
+	//right wall
 	glBegin(GL_QUADS);
-	glColor3fv(White);
+
 	glNormal3f(0.0f, 0.0f, 1.0f);
 	glTexCoord2f(0, 0);
 	glVertex3f(x, y, z);
@@ -132,8 +141,6 @@ void DrawHouse() {
 	glEnd();
 	//left wall
 	glBegin(GL_QUADS);
-	glColor3fv(White);
-	glNormal3f(0.0f, 0.0f, 1.0f);
 	glTexCoord2f(0, 0);
 	glVertex3f(-x, y, z);
 
@@ -148,19 +155,17 @@ void DrawHouse() {
 	glEnd();
 	glDisable(GL_TEXTURE_2D);
 	glPopMatrix();
+
 	//front wall
-	glBindTexture(GL_TEXTURE_2D, textures[WALL2]);
+	glBindTexture(GL_TEXTURE_2D, textures[FRONT_WALL]);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 
-	glColor3fv(White);
 	glPushMatrix();
 	glTranslatef(0, 0, -5.0f);
 	glEnable(GL_TEXTURE_2D);
 
 	glBegin(GL_QUADS);
-	glColor3fv(White);
-	glNormal3f(0.0f, 0.0f, 1.0f);
 	glTexCoord2f(1, 1);
 	glVertex3f(-x, -y, z);
 
@@ -173,22 +178,29 @@ void DrawHouse() {
 	glTexCoord2f(1, 0);
 	glVertex3f(-x, y, z);
 	glEnd();
+
 	glDisable(GL_TEXTURE_2D);
-	glEnable(GL_COLOR_MATERIAL);
-	glColor3fv(Gray);
+	//roof
+	isDrawnShadow ? glColor4fv(BlackShadow) : glColor3fv(Gray);
 	glBegin(GL_QUADS);
 	glVertex3f(x, -y, z);
 	glVertex3f(-x, -y, z);
 	glVertex3f(-x, -y, -z);
 	glVertex3f(x, -y, -z);
 	glEnd();
-	glDisable(GL_COLOR_MATERIAL);
+	//back wall
+	glColor3fv(Black);
+	glBegin(GL_QUADS);
+	glVertex3f(-x, -y, -z);
+	glVertex3f(x, -y, -z);
+	glVertex3f(x, y, -z);
+	glVertex3f(-x, y, -z);
+	glEnd();
 	glPopMatrix();
 }
-void DrawWheels() {
+void DrawWheels(bool isDrawnShadow = false) {
+	isDrawnShadow ? glColor4fv(BlackShadow) : glColor3fv(Wheat);
 	glPushMatrix();
-	glEnable(GL_COLOR_MATERIAL);
-	glColor3fv(Gray);
 
 	glTranslatef(-0.5f, -0.86f, -0.7f);
 	glutSolidSphere(0.25, 10, 10);
@@ -202,14 +214,13 @@ void DrawWheels() {
 	glTranslatef(0, 0, -0.7f);
 	glutSolidSphere(0.25, 10, 10);
 
-	glDisable(GL_COLOR_MATERIAL);
 	glPopMatrix();
 }
-void DrawBody() {
+void DrawBody(bool isDrawnShadow = false) {
 	float xr = 1.0f, xl = -1.0f, x2r = 0.4f, yu = 1.0f, yd = 0.1f, y2u = 1.4f, zf = 0.0f, zb = -0.75f;
 	glPushMatrix();
-	glEnable(GL_COLOR_MATERIAL);
-	glColor3fv(Yellow);
+
+	isDrawnShadow ? glColor4fv(BlackShadow) : glColor3fv(Yellow);
 	glTranslatef(0, -1, 0);
 	glBegin(GL_QUADS);
 	//back wall
@@ -251,14 +262,14 @@ void DrawBody() {
 	glVertex3f(xr, yu, zf);
 
 	//left wall
-	glColor3fv(Red);
+	isDrawnShadow ? glColor4fv(BlackShadow) : glColor3fv(Red);
 	glVertex3f(xl, yu, zb);
 	glVertex3f(xl, yd, zb);
 	glVertex3f(xl, yd, zf);
 	glVertex3f(xl, yu, zf);
 
 	//car window
-	glColor3fv(Aqua);
+	isDrawnShadow ? glColor4fv(BlackShadow) : glColor3fv(Aqua);
 
 	//left
 	glVertex3f(-x2r, yu, zb);
@@ -285,22 +296,26 @@ void DrawBody() {
 	glVertex3f(x2r, yu, zb);
 
 	glEnd();
-	glDisable(GL_COLOR_MATERIAL);
 	glPopMatrix();
 }
-void DrawCar() {
+void DrawCar(bool isDrawnShadow = false) {
 	const GLfloat scale = 0.5;
 	glPushMatrix();
 	glTranslatef(2.0f, -0.45f, -2.0f);
 	glTranslatef(positionX, positionY, positionZ);
 	glRotatef(turnCar, 0, 1, 0);
 	glScalef(scale, scale, scale);
-
-	DrawBody();
-	DrawWheels();
+	if (isDrawnShadow) {
+		DrawBody(true);
+		DrawWheels(true);
+	}
+	else {
+		DrawBody();
+		DrawWheels();
+	}
 	glPopMatrix();
 }
-void DrawLights() {
+void DrawStreetLights(bool isDrawnShadow = false) {
 	GLfloat startPositionX = -8.3f, startPositionY = -7.5f;
 	GLfloat sacale = 0.4f, dystanceZ = -7.5f;
 
@@ -308,32 +323,29 @@ void DrawLights() {
 	{
 		glPushMatrix();
 		glDisable(GL_LIGHTING);
-		glEnable(GL_BLEND);
-		glEnable(GL_COLOR_MATERIAL);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		glScalef(sacale, sacale, sacale);
 		glTranslatef(startPositionX + i * lightMultiplayer, -0.3f, dystanceZ);
-		glColor4fv(LightGoldenrodYellow2);
+		isDrawnShadow ? glColor4fv(BlackShadow) : glColor4fv(LightGoldenrodYellow2);
+		//light bulb
 		glTranslatef(0.3f, -0.5f, -0.5f);
 		glutSolidSphere(0.15, 20, 20);
-		glDisable(GL_BLEND);
 
 		glPopMatrix();
 		glPushMatrix();
 		glScalef(sacale, sacale, sacale);
 		glTranslatef(startPositionX + 0.3f + i * lightMultiplayer, -1.7f, dystanceZ - 0.5f);
+		//light pillar
 		glScaled(0.2, 3, 0.15);
-		glColor3fv(DarkGray);
+		isDrawnShadow ? glColor4fv(BlackShadow) : glColor3fv(DarkGray);
 		glutSolidCube(0.5);
 
-		glDisable(GL_COLOR_MATERIAL);
 		glEnable(GL_LIGHTING);
 		glPopMatrix();
 	}
 }
-void DrawShadow(){}
-void SetFog() {
+void SetFog()
+{
 	glHint(GL_FOG_HINT, fog_hint);
 	glFogf(GL_FOG_MODE, fog_mode);
 	glFogfv(GL_FOG_COLOR, Gray);
@@ -341,40 +353,79 @@ void SetFog() {
 	glFogf(GL_FOG_END, fog_end);
 	glFogf(GL_FOG_DENSITY, fog_density);
 }
+void SelectingShadowMatrices()
+{
+	if (light1Status == L1OFF && light0Status == L0ON)
+	{
+		glMultMatrixf(ShadowMatrixForLight0);
+	}
+	else if (light1Status == L1ON && light0Status == L0OFF)
+	{
+		glMultMatrixf(ShadowMatrixForLight1);
+	}
+	else if (light1Status == L1ON && light0Status == L0ON)
+	{
+		glMultMatrixf(ShadowMatrixForLight1AndLight2);
+	}
+	else {
+		glMultMatrixf(ShadowMatrixEmpty);
+	}
+}
+void DrawShadows() {
+	glDisable(GL_DEPTH_TEST);
+	glDisable(GL_LIGHTING);
+	glPushMatrix();
 
+	SelectingShadowMatrices();
+
+	DrawHouse(true);
+	DrawCar(true);
+	DrawStreetLights(true);
+
+	glPopMatrix();
+	glEnable(GL_LIGHTING);
+	glEnable(GL_DEPTH_TEST);
+}
 void DrawScene() {
+	glEnable(GL_BLEND);
+	glEnable(GL_COLOR_MATERIAL);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	DrawGrass();
 	DrawRoad();
 
+	DrawShadows();
 	DrawHouse();
 	DrawCar();
-	DrawLights();
+	DrawStreetLights();
 
 	TurnOnLight0();
 	TurnOnLight1();
+
+	glDisable(GL_COLOR_MATERIAL);
+	glDisable(GL_BLEND);
 }
 
 void projectionFrustrum(int width, int height)
 {
-	// parametry bry³y obcinania
-	if (Aspect == ASPECT_1_1)
+	if (aspect == ASPECT_1_1)
 	{
-		// wysokoœæ okna wiêksza od wysokoœci okna
-		if (width < height && width > 0)
+		if (width < height && width > 0) {
 			glFrustum(-2.0, 2.0, -2.0 * height / width, 2.0 * height / width, 1.0, wievDistance);
-		else
-
-			// szerokoœæ okna wiêksza lub równa wysokoœci okna
-			if (width >= height && height > 0)
-				glFrustum(-2.0 * width / height, 2.0 * width / height, -2.0, 2.0, 1.0, wievDistance);
+		}
+		else if (width >= height && height > 0) {
+			glFrustum(-2.0 * width / height, 2.0 * width / height, -2.0, 2.0, 1.0, wievDistance);
+		}
 	}
-	else
+	else {
 		glFrustum(-2.0, 2.0, -2.0, 2.0, 1.0, wievDistance);
+	}
 }
-void projectionPerspective(int width, int height) {
+void projectionPerspective(int width, int height)
+{
 	GLdouble aspect = 1;
-	if (height > 0)
+	if (height > 0) {
 		aspect = width / (GLdouble)height;
+	}
 	gluPerspective(FOV, aspect, 1.0, wievDistance);
 }
 
@@ -383,6 +434,7 @@ void Display()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+
 	glEnable(GL_LIGHTING);
 	glEnable(GL_DEPTH_TEST);
 	glpApplyCameraTransform(&frameCamera);
@@ -398,8 +450,9 @@ void Display()
 	glutSwapBuffers();
 }
 
-void Reshape(int width, int height) {
-	// obszar renderingu - ca³e okno
+void Reshape(int width, int height)
+{
+	// render full window
 	glViewport(0, 0, width, height);
 
 	glMatrixMode(GL_PROJECTION);
@@ -428,10 +481,7 @@ void MouseButton(int button, int state, int x, int y)
 {
 	if (button == GLUT_LEFT_BUTTON)
 	{
-		// zapamiêtanie stanu lewego przycisku myszki
 		button_state = state;
-
-		// zapamiêtanie po³o¿enia kursora myszki
 		if (state == GLUT_DOWN)
 		{
 			button_x = x;
@@ -451,20 +501,29 @@ void MouseMotion(int x, int y)
 	}
 }
 
-void ResetCarRadiuse(bool leftTurn=true) {
-	if (turnCar >= 360 || turnCar <= -360 && leftTurn)turnCar = 0;
-	else if(turnCar == 0 && !leftTurn)
+void ResetCarRadiuse(bool leftTurn = true)
+{
+	if (turnCar >= 360 || turnCar <= -360 && leftTurn)
+	{
+		turnCar = 0;
+	}
+	else if (turnCar == 0 && !leftTurn)
+	{
 		turnCar = 360;
+	}
 }
-void SwapHorisontToZ() {
+void SwapHorisontToZ()
+{
 	directionHorizontal = &positionZ;
 	directionVertical = &positionX;
 }
-void SwapHorisontToX() {
+void SwapHorisontToX()
+{
 	directionHorizontal = &positionX;
 	directionVertical = &positionZ;
 }
-void SelectAngle(GLint angle) {
+void SelectAngle(GLint angle)
+{
 	switch (angle)
 	{
 	case 0:
@@ -495,19 +554,22 @@ void SelectAngle(GLint angle) {
 		break;
 	}
 }
-void TurnLeft() {
+void TurnLeft()
+{
 	turnCar += turnAngle;
 	ResetCarRadiuse();
 	SelectAngle(turnCar);
 	rightTurnWasUsed = false;
 }
-void TurnRight() {
+void TurnRight()
+{
 	ResetCarRadiuse(false);
 	turnCar -= turnAngle;
 	SelectAngle(turnCar);
 	rightTurnWasUsed = true;
 }
-void MoveForward(const GLfloat speed) {
+void MoveForward(const GLfloat speed)
+{
 	if (isTheCarFrontFacingLeft)
 		* directionHorizontal -= speed;
 	else
@@ -515,8 +577,10 @@ void MoveForward(const GLfloat speed) {
 
 	switch (turnCar)
 	{
-	case 45: {
-		if (rightTurnWasUsed) {
+	case 45:
+	{
+		if (rightTurnWasUsed)
+		{
 			*directionVertical -= speed;
 		}
 		else
@@ -526,22 +590,27 @@ void MoveForward(const GLfloat speed) {
 		}
 		break;
 	}
-	case 135: {
+	case 135:
+	{
 		*directionHorizontal += speed;
 		*directionVertical += speed;
 		break;
 	}
-	case 225: {
-		if (rightTurnWasUsed) {
+	case 225:
+	{
+		if (rightTurnWasUsed)
+		{
 			*directionVertical += speed;
 		}
-		else {
+		else
+		{
 			*directionHorizontal += speed;
 			*directionVertical -= speed;
 		}
 		break;
 	}
-	case 315: {
+	case 315:
+	{
 		*directionHorizontal -= speed;
 		*directionVertical -= speed;
 		break;
@@ -557,19 +626,23 @@ void Keyboard(unsigned char key, int x, int y)
 	switch (key)
 	{
 	case'-': {
-		if (activeProjection == perspective && FOV < 180) {
+		if (activeProjection == perspective && FOV < 180)
+		{
 			FOV++;
 		}
-		else if (scale > 0.1f) {
+		else if (scale > 0.1f)
+		{
 			scale -= 0.1f;
 		}
 		break;
 	}
 	case'+': {
-		if (activeProjection == perspective && FOV > 0) {
+		if (activeProjection == perspective && FOV > 0)
+		{
 			FOV--;
 		}
-		else {
+		else
+		{
 			scale += 0.1f;
 		}
 		break;
@@ -579,7 +652,8 @@ void Keyboard(unsigned char key, int x, int y)
 	case'a': { TurnLeft();				break; }
 	case'd': { TurnRight();				break; }
 	case '1': {
-		if (light0Status == L0OFF) {
+		if (light0Status == L0OFF)
+		{
 			light0Status = L0ON;
 			glEnable(GL_LIGHT0);
 		}
@@ -591,7 +665,8 @@ void Keyboard(unsigned char key, int x, int y)
 		break;
 	}
 	case '2': {
-		if (light1Status == L1OFF) {
+		if (light1Status == L1OFF)
+		{
 			light1Status = L1ON;
 			glEnable(GL_LIGHT1);
 		}
@@ -605,7 +680,6 @@ void Keyboard(unsigned char key, int x, int y)
 	default:
 		break;
 	}
-
 	Reshape(glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
 }
 void SpecialKeys(int key, int x, int y)
@@ -630,21 +704,23 @@ void SpecialKeys(int key, int x, int y)
 	}
 	Display();
 }
-void ScaleMenu(int sc) {
+void ScaleMenu(int sc)
+{
 	switch (sc)
 	{
 	case FULL_WINDOW:
-		Aspect = FULL_WINDOW;
+		aspect = FULL_WINDOW;
 		break;
 	case ASPECT_1_1:
-		Aspect = ASPECT_1_1;
+		aspect = ASPECT_1_1;
 		break;
 	default:
 		break;
 	}
 	Reshape(glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
 }
-void ProjectionMenu(int p) {
+void ProjectionMenu(int p)
+{
 	switch (p)
 	{
 	case frustum:
@@ -659,18 +735,21 @@ void ProjectionMenu(int p) {
 	Reshape(glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
 }
 
-void FogMenu(int s) {
+void FogMenu(int s)
+{
 	if (s == ON)
 	{
 		glEnable(GL_FOG);
 		SetFog();
 	}
-	else {
+	else
+	{
 		glDisable(GL_FOG);
 	}
 	Display();
 }
-void MainMenu() {
+void MainMenu()
+{
 	//-------------------SCALE---------------------
 	int menuAspect = glutCreateMenu(ScaleMenu);
 #ifdef WIN32
@@ -691,7 +770,7 @@ void MainMenu() {
 	glutAddMenuEntry("Perspektywiczne Perspective", perspective);
 #endif
 
-	//-----------------Fog----------------------------
+	//-----------------FOG----------------------------
 	int fogState = glutCreateMenu(FogMenu);
 #ifdef WIN32
 	glutAddMenuEntry("Wl mgle", ON);
@@ -712,19 +791,20 @@ void MainMenu() {
 	glutAddMenuEntry("Wyjscie", EXIT);
 #endif
 }
-void ShowControls(bool t = true) {
-	if (t) {
+void ShowControls(bool isShown = true)
+{
+	if (isShown)
+	{
 		std::cout << Info;
 		return;
 	}
 	FreeConsole();
-	}
+}
 int main(int argc, char* argv[])
 {
 	ShowControls(false);
 
 	glutInit(&argc, argv);
-
 
 	glutInitWindowSize(windowWidht, windowHeight);
 
@@ -746,10 +826,7 @@ int main(int argc, char* argv[])
 
 	MainMenu();
 
-	// okreœlenie przycisku myszki obslugujacej menu podreczne
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
-	// wprowadzenie programu do obslugi petli komunikatow
 	glutMainLoop();
-
 	return 0;
 }
