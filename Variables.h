@@ -44,15 +44,29 @@ GLfloat mediumLight[] = { 0.5f, 0.5f, 0.5f,1.0f };
 GLfloat powerfulLight[] = { 1.0f, 1.0f, 1.0f,1.0f };
 
 lights light0Status = L0OFF;
-GLfloat light0_position[] = { 0,-0.1f, -1, 0.5f };
+GLfloat light0_position[] = { 0,1.0f, 2, 0.5f };
 GLfloat light0_direction[] = { 0,1,0 };
 
 lights light1Status = L1OFF;
-//GLfloat light1_position[] = {1.5,1.55,-2.375 ,1.0 };
-GLfloat light1_position[] = { -1,-0.75,-2.5,1 };
-GLfloat light1_direction[] = { 1,0,0 };
-GLfloat light1_specular[] = { 1,1,1,1 };
+GLfloat light1_positionMorning[] = { -10,1.0f, 5, 0.5f };
+GLfloat light1_positionMidday[] = { 0,4.0f, 5, 0.5f };
+GLfloat light1_positionEvning[] = { 10,1.0f, 5, 0.5f };
+GLfloat *light1_position= light1_positionMidday;
 
+GLfloat morningLight[]=  { 0,1,1,1 };
+GLfloat middayLight[]=  { 1,1,1,1 };
+GLfloat evningLight[]=  { 1,0,0,1 };
+
+GLfloat directioMorning[] = { 3,-2,-1 };
+GLfloat directioMidday[] = { 0,0,-1 };
+GLfloat directioEvning[] = { -2,1,-3};
+
+GLfloat *light1_direction=directioMidday;
+GLfloat *light1_specular= middayLight;
+GLfloat *light1_diffuse= middayLight;
+GLfloat *light1_ambient = powerfulLight;
+GLfloat light1Spot_cutoff = 70.0f;
+GLfloat light1Spot_exponent = 2.0f;
 //shadow matrices
 GLPMatrix ShadowMatrixForLight0;
 GLPMatrix ShadowMatrixForLight1;
@@ -120,15 +134,31 @@ const char* Info = R"(
 				-> +/- - przyblizenie/oddalenie kamery
 		  		-> 1-2 - wl/wyl oswietlenie 1-2
 
-					    Sterowanie samochodem:
+					    -Sterowanie samochodem-
 						-> w - do przody
 						-> s - do tylu
 						-> a - lewo
 						-> d - prawo
 
-						   -MYSZ-
-		  		-> mysz - przemieszczanie szceny
-				-> strzalki lewo/prawo ruch kamery w lewo/prawo
-		  			Reszta sterowania odbywa sie poprzez menu
+						-Oswietlenie-
+				-> m - Ustawienie light1 na wartosci swiatla porannego
+				-> n - Ustawienie light1 na wartosci swiatla poludniowego
+				-> b - Ustawienie light1 na wartosci swiatla wieczornego
+				-> , - zwieksza rozwarcie reflektora
+				-> . - zmniejsza rozwarcie reflektora
+				-> k - zwieksza skupienie reflektora
+				-> l - zmniejsza skupienie reflektora
+
+						   -Podreczne menu-
+		  		-> Skalowanie obrazu:
+					-> Cale okno
+					-> Proporcjonalne
+		  		-> Rzutowanie obrazu:
+					-> Frustrum
+					-> Perspective
+		  		-> Mgla:
+					-> Wl
+					-> Wyl
+		  		-> Wyjscie z programu
 		  	-----------------------------------------------------------------
 )";

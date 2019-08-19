@@ -6,6 +6,62 @@
 #include "stdafx.h"
 #include "Variables.h"
 
+
+void TurnOnLight0()
+{
+	glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
+	glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, light0_direction);
+	glLightModeli(GL_LIGHT_MODEL_AMBIENT, light0Status);
+
+	glutPostRedisplay();
+	glpMakeShadowMatrix(vPoints, light0_position, ShadowMatrixForLight0);
+	glpMakeShadowMatrix(vPoints, light0_position, ShadowMatrixForLight1AndLight2);
+}
+void TurnOnLight1()
+{
+	glLightfv(GL_LIGHT1, GL_AMBIENT, light1_ambient);
+	glLightfv(GL_LIGHT1, GL_DIFFUSE, light1_diffuse);
+	glLightfv(GL_LIGHT1, GL_SPECULAR, light1_specular);
+	glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, light1_direction);
+	glLightfv(GL_LIGHT1, GL_POSITION, light1_position);
+
+	glLightf(GL_LIGHT1, GL_SPOT_CUTOFF, light1Spot_cutoff);
+	glLightf(GL_LIGHT1, GL_SPOT_EXPONENT, light1Spot_exponent);
+	glLightModeli(GL_LIGHT_MODEL_AMBIENT, light1Status);
+
+	glpMakeShadowMatrix(vPoints, light1_position, ShadowMatrixForLight1);
+	glpMakeShadowMatrix(vPoints, light1_position, ShadowMatrixForLight1AndLight2);
+
+	glutPostRedisplay();
+}
+void SetMorningLight()
+{
+	light1Spot_cutoff = 70;
+	light1Spot_exponent = 2.0f;
+	light1_direction = directioMorning;
+	light1_position = light1_positionMorning;
+	light1_position = weakLight;
+	light1_diffuse = light1_specular = morningLight;
+}
+void SetMiddayLight()
+{
+	light1Spot_cutoff = 70;
+	light1Spot_exponent = 2.0f;
+	light1_direction = directioMidday;
+	light1_position = light1_positionMidday;
+	light1_position = powerfulLight;
+	light1_diffuse = light1_specular = middayLight;
+}
+void SetEvningLight()
+{
+	light1Spot_cutoff = 70;
+	light1Spot_exponent = 2.0f;
+	light1_direction = directioEvning;
+	light1_position = light1_positionEvning;
+	light1_position = mediumLight;
+	light1_diffuse = light1_specular = evningLight;
+}
+
 void TextureLoad()
 {
 	glEnable(GL_TEXTURE_2D);
@@ -24,32 +80,6 @@ void TextureLoad()
 		free(pBytes);
 	}
 }
-
-void TurnOnLight0()
-{
-	glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
-	glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, light0_direction);
-	glLightModeli(GL_LIGHT_MODEL_AMBIENT, light0Status);
-
-	glutPostRedisplay();
-	glpMakeShadowMatrix(vPoints, light0_position, ShadowMatrixForLight0);
-	glpMakeShadowMatrix(vPoints, light0_position, ShadowMatrixForLight1AndLight2);
-}
-void TurnOnLight1()
-{
-	glLightfv(GL_LIGHT1, GL_POSITION, light1_position);
-	glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, light1_direction);
-	glLightfv(GL_LIGHT1, GL_DIFFUSE, powerfulLight);
-	//glLightfv(GL_LIGHT1, GL_SPECULAR, light1_specular);
-
-	glLightf(GL_LIGHT1, GL_SPOT_CUTOFF, 35.0);
-	glLightf(GL_LIGHT1, GL_SPOT_EXPONENT, 0.5);
-	glLightModeli(GL_LIGHT_MODEL_AMBIENT, light1Status);
-	glpMakeShadowMatrix(vPoints, light1_position, ShadowMatrixForLight1);
-	glpMakeShadowMatrix(vPoints, light1_position, ShadowMatrixForLight1AndLight2);
-	glutPostRedisplay();
-}
-
 void DrawGrass()
 {
 	glBindTexture(GL_TEXTURE_2D, textures[GRASS]);
@@ -625,7 +655,7 @@ void Keyboard(unsigned char key, int x, int y)
 {
 	switch (key)
 	{
-	case'-': {
+	case '-': {
 		if (activeProjection == perspective && FOV < 180)
 		{
 			FOV++;
@@ -636,7 +666,7 @@ void Keyboard(unsigned char key, int x, int y)
 		}
 		break;
 	}
-	case'+': {
+	case '+': {
 		if (activeProjection == perspective && FOV > 0)
 		{
 			FOV--;
@@ -647,10 +677,6 @@ void Keyboard(unsigned char key, int x, int y)
 		}
 		break;
 	}
-	case'w': { MoveForward(carSpeed);	break; }
-	case's': { MoveForward(-carSpeed);  break; }
-	case'a': { TurnLeft();				break; }
-	case'd': { TurnRight();				break; }
 	case '1': {
 		if (light0Status == L0OFF)
 		{
@@ -677,6 +703,17 @@ void Keyboard(unsigned char key, int x, int y)
 		}
 		break;
 	}
+	case 'w': { MoveForward(carSpeed);	  break; }
+	case 's': { MoveForward(-carSpeed);   break; }
+	case 'a': { TurnLeft();				  break; }
+	case 'd': { TurnRight();			  break; }
+	case 'm': {	SetMorningLight();		  break; }
+	case 'n': {	SetMiddayLight();		  break; }
+	case 'b': {	SetEvningLight();		  break; }
+	case ',': { light1Spot_cutoff += 5;   break; }
+	case '.': {	light1Spot_cutoff -= 5;   break; }
+	case 'k': { light1Spot_exponent += 5; break; }
+	case 'l': {	light1Spot_exponent -= 5; break; }
 	default:
 		break;
 	}
@@ -799,10 +836,10 @@ void ShowControls(bool isShown = true)
 		return;
 	}
 	FreeConsole();
-}
+	}
 int main(int argc, char* argv[])
 {
-	ShowControls(false);
+	ShowControls();
 
 	glutInit(&argc, argv);
 
