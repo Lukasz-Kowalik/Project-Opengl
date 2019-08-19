@@ -6,24 +6,6 @@
 #include "stdafx.h"
 #include "Variables.h"
 
-void TextureLoad()
-{
-	glEnable(GL_TEXTURE_2D);
-	glGenTextures(amountOfTextures, textures);
-	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-	for (int i = 0; i < amountOfTextures; i++)
-	{
-		GLubyte* pBytes;
-		GLint iWidth, iHeight, iComponents;
-		GLenum eFormat;
-		glBindTexture(GL_TEXTURE_2D, textures[i]);
-		pBytes = glploadtga(textureFile[i], &iWidth, &iHeight, &iComponents, &eFormat);
-		gluBuild2DMipmaps(GL_TEXTURE_2D, iComponents, iWidth, iHeight, eFormat, GL_UNSIGNED_BYTE, pBytes);
-		free(pBytes);
-	}
-}
 
 void TurnOnLight0()
 {
@@ -45,11 +27,24 @@ void TurnOnLight1()
 	glLightf(GL_LIGHT1, GL_SPOT_CUTOFF, 35.0);
 	glLightf(GL_LIGHT1, GL_SPOT_EXPONENT, 0.5);
 	glLightModeli(GL_LIGHT_MODEL_AMBIENT, light1Status);
+
 	glpMakeShadowMatrix(vPoints, light1_position, ShadowMatrixForLight1);
 	glpMakeShadowMatrix(vPoints, light1_position, ShadowMatrixForLight1AndLight2);
+
 	glutPostRedisplay();
 }
 
+	for (int i = 0; i < amountOfTextures; i++)
+	{
+		GLubyte* pBytes;
+		GLint iWidth, iHeight, iComponents;
+		GLenum eFormat;
+		glBindTexture(GL_TEXTURE_2D, textures[i]);
+		pBytes = glploadtga(textureFile[i], &iWidth, &iHeight, &iComponents, &eFormat);
+		gluBuild2DMipmaps(GL_TEXTURE_2D, iComponents, iWidth, iHeight, eFormat, GL_UNSIGNED_BYTE, pBytes);
+		free(pBytes);
+	}
+}
 void DrawGrass()
 {
 	glBindTexture(GL_TEXTURE_2D, textures[GRASS]);
@@ -625,7 +620,7 @@ void Keyboard(unsigned char key, int x, int y)
 {
 	switch (key)
 	{
-	case'-': {
+	case '-': {
 		if (activeProjection == perspective && FOV < 180)
 		{
 			FOV++;
@@ -636,7 +631,7 @@ void Keyboard(unsigned char key, int x, int y)
 		}
 		break;
 	}
-	case'+': {
+	case '+': {
 		if (activeProjection == perspective && FOV > 0)
 		{
 			FOV--;
@@ -647,10 +642,6 @@ void Keyboard(unsigned char key, int x, int y)
 		}
 		break;
 	}
-	case'w': { MoveForward(carSpeed);	break; }
-	case's': { MoveForward(-carSpeed);  break; }
-	case'a': { TurnLeft();				break; }
-	case'd': { TurnRight();				break; }
 	case '1': {
 		if (light0Status == L0OFF)
 		{
@@ -677,6 +668,17 @@ void Keyboard(unsigned char key, int x, int y)
 		}
 		break;
 	}
+	case 'w': { MoveForward(carSpeed);	  break; }
+	case 's': { MoveForward(-carSpeed);   break; }
+	case 'a': { TurnLeft();				  break; }
+	case 'd': { TurnRight();			  break; }
+	case 'm': {	SetMorningLight();		  break; }
+	case 'n': {	SetMiddayLight();		  break; }
+	case 'b': {	SetEvningLight();		  break; }
+	case ',': { light1Spot_cutoff += 5;   break; }
+	case '.': {	light1Spot_cutoff -= 5;   break; }
+	case 'k': { light1Spot_exponent += 5; break; }
+	case 'l': {	light1Spot_exponent -= 5; break; }
 	default:
 		break;
 	}
@@ -799,10 +801,10 @@ void ShowControls(bool isShown = true)
 		return;
 	}
 	FreeConsole();
-}
+	}
 int main(int argc, char* argv[])
 {
-	ShowControls(false);
+	ShowControls();
 
 	glutInit(&argc, argv);
 

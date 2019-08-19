@@ -54,10 +54,10 @@
     <Image Include="textures\grass.tga">
       <Filter>textures</Filter>
     </Image>
-    <Image Include="textures\brickwall.tga">
+    <Image Include="textures\brickwall2.tga">
       <Filter>textures</Filter>
     </Image>
-    <Image Include="textures\brickwall2.tga">
+    <Image Include="textures\brickwall.tga">
       <Filter>textures</Filter>
     </Image>
   </ItemGroup>
