@@ -19,13 +19,14 @@ void TurnOnLight0()
 }
 void TurnOnLight1()
 {
-	glLightfv(GL_LIGHT1, GL_POSITION, light1_position);
+	glLightfv(GL_LIGHT1, GL_AMBIENT, light1_ambient);
+	glLightfv(GL_LIGHT1, GL_DIFFUSE, light1_diffuse);
+	glLightfv(GL_LIGHT1, GL_SPECULAR, light1_specular);
 	glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, light1_direction);
-	glLightfv(GL_LIGHT1, GL_DIFFUSE, powerfulLight);
-	//glLightfv(GL_LIGHT1, GL_SPECULAR, light1_specular);
+	glLightfv(GL_LIGHT1, GL_POSITION, light1_position);
 
-	glLightf(GL_LIGHT1, GL_SPOT_CUTOFF, 35.0);
-	glLightf(GL_LIGHT1, GL_SPOT_EXPONENT, 0.5);
+	glLightf(GL_LIGHT1, GL_SPOT_CUTOFF, light1Spot_cutoff);
+	glLightf(GL_LIGHT1, GL_SPOT_EXPONENT, light1Spot_exponent);
 	glLightModeli(GL_LIGHT_MODEL_AMBIENT, light1Status);
 
 	glpMakeShadowMatrix(vPoints, light1_position, ShadowMatrixForLight1);
