@@ -134,15 +134,31 @@ const char* Info = R"(
 				-> +/- - przyblizenie/oddalenie kamery
 		  		-> 1-2 - wl/wyl oswietlenie 1-2
 
-					    Sterowanie samochodem:
+					    -Sterowanie samochodem-
 						-> w - do przody
 						-> s - do tylu
 						-> a - lewo
 						-> d - prawo
 
-						   -MYSZ-
-		  		-> mysz - przemieszczanie szceny
-				-> strzalki lewo/prawo ruch kamery w lewo/prawo
-		  			Reszta sterowania odbywa sie poprzez menu
+						-Oswietlenie-
+				-> m - Ustawienie light1 na wartosci swiatla porannego
+				-> n - Ustawienie light1 na wartosci swiatla poludniowego
+				-> b - Ustawienie light1 na wartosci swiatla wieczornego
+				-> , - zwieksza rozwarcie reflektora
+				-> . - zmniejsza rozwarcie reflektora
+				-> k - zwieksza skupienie reflektora
+				-> l - zmniejsza skupienie reflektora
+
+						   -Podreczne menu-
+		  		-> Skalowanie obrazu:
+					-> Cale okno
+					-> Proporcjonalne
+		  		-> Rzutowanie obrazu:
+					-> Frustrum
+					-> Perspective
+		  		-> Mgla:
+					-> Wl
+					-> Wyl
+		  		-> Wyjscie z programu
 		  	-----------------------------------------------------------------
 )";
