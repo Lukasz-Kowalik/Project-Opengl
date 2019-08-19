@@ -36,6 +36,7 @@ void TurnOnLight1()
 }
 void SetMorningLight()
 {
+	glClearColor(LightBlue[0], LightBlue[1], LightBlue[2], LightBlue[3]);
 	light1Spot_cutoff = 70;
 	light1Spot_exponent = 2.0f;
 	light1_direction = directioMorning;
@@ -45,6 +46,7 @@ void SetMorningLight()
 }
 void SetMiddayLight()
 {
+	glClearColor(LightGoldenrodYellow[0], LightGoldenrodYellow[1], LightGoldenrodYellow[2], LightGoldenrodYellow[3]);
 	light1Spot_cutoff = 70;
 	light1Spot_exponent = 2.0f;
 	light1_direction = directioMidday;
@@ -54,6 +56,7 @@ void SetMiddayLight()
 }
 void SetEvningLight()
 {
+	glClearColor(OrangeRed[0], OrangeRed[1], OrangeRed[2], OrangeRed[3]);
 	light1Spot_cutoff = 70;
 	light1Spot_exponent = 2.0f;
 	light1_direction = directioEvning;
@@ -398,6 +401,7 @@ void SelectingShadowMatrices()
 		glMultMatrixf(ShadowMatrixForLight1AndLight2);
 	}
 	else {
+		glClearColor(Black[0], Black[1], Black[2], Black[3]);
 		glMultMatrixf(ShadowMatrixEmpty);
 	}
 }
@@ -842,7 +846,7 @@ int main(int argc, char* argv[])
 	ShowControls();
 
 	glutInit(&argc, argv);
-
+	glClearColor(Black[0], Black[1], Black[2], Black[3]);
 	glutInitWindowSize(windowWidht, windowHeight);
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
