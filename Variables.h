@@ -137,8 +137,8 @@ const char* Info = R"(
 				-> m - Ustawienie light1 na wartosci swiatla porannego
 				-> n - Ustawienie light1 na wartosci swiatla poludniowego
 				-> b - Ustawienie light1 na wartosci swiatla wieczornego
-				-> , - zwieksza rozwarcie reflektora
-				-> . - zmniejsza rozwarcie reflektora
+				-> , - zwieksza k¹ta rozwarcie reflektora
+				-> . - zmniejsza k¹ta rozwarcie reflektora
 				-> k - zwieksza skupienie reflektora
 				-> l - zmniejsza skupienie reflektora
 
