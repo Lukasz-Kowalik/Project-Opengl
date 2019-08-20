@@ -39,18 +39,16 @@ enum lights {
 	L1ON,
 	L1OFF
 };
-GLfloat weakLight[] = { 0.01f, 0.01f, 0.01f, 1.0f };
-GLfloat mediumLight[] = { 0.5f, 0.5f, 0.5f,1.0f };
-GLfloat powerfulLight[] = { 1.0f, 1.0f, 1.0f,1.0f };
+
 
 lights light0Status = L0OFF;
 GLfloat light0_position[] = { 0,1.0f, 2, 0.5f };
 GLfloat light0_direction[] = { 0,1,0 };
 
 lights light1Status = L1OFF;
-GLfloat light1_positionMorning[] = { -10,1.0f, 5, 0.5f };
-GLfloat light1_positionMidday[] = { 0,4.0f, 5, 0.5f };
-GLfloat light1_positionEvning[] = { 10,1.0f, 5, 0.5f };
+GLfloat light1_positionMorning[] = { 0.1f, 0.1f, 0.1f, 1.0f };
+GLfloat light1_positionEvning[] = { 0.5f, 0.5f, 0.5f,1.0f };
+GLfloat light1_positionMidday[] = { 1.0f, 1.0f, 1.0f,1.0f };
 GLfloat *light1_position= light1_positionMidday;
 
 GLfloat morningLight[]=  { 0,1,1,1 };
@@ -64,7 +62,7 @@ GLfloat directioEvning[] = { -2,1,-3};
 GLfloat *light1_direction=directioMidday;
 GLfloat *light1_specular= middayLight;
 GLfloat *light1_diffuse= middayLight;
-GLfloat *light1_ambient = powerfulLight;
+GLfloat *light1_ambient = light1_positionMidday;
 GLfloat light1Spot_cutoff = 70.0f;
 GLfloat light1Spot_exponent = 2.0f;
 //shadow matrices

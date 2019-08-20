@@ -40,7 +40,6 @@ void SetMorningLight()
 	light1Spot_exponent = 2.0f;
 	light1_direction = directioMorning;
 	light1_position = light1_positionMorning;
-	light1_position = weakLight;
 	light1_diffuse = light1_specular = morningLight;
 }
 void SetMiddayLight()
@@ -50,7 +49,6 @@ void SetMiddayLight()
 	light1Spot_exponent = 2.0f;
 	light1_direction = directioMidday;
 	light1_position = light1_positionMidday;
-	light1_position = powerfulLight;
 	light1_diffuse = light1_specular = middayLight;
 }
 void SetEvningLight()
@@ -60,7 +58,6 @@ void SetEvningLight()
 	light1Spot_exponent = 2.0f;
 	light1_direction = directioEvning;
 	light1_position = light1_positionEvning;
-	light1_position = mediumLight;
 	light1_diffuse = light1_specular = evningLight;
 }
 
