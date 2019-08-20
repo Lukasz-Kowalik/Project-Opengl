@@ -438,7 +438,7 @@ void DrawScene() {
 	glDisable(GL_BLEND);
 }
 
-void projectionFrustrum(int width, int height)
+void ProjectionFrustrum(int width, int height)
 {
 	if (aspect == ASPECT_1_1)
 	{
@@ -453,7 +453,7 @@ void projectionFrustrum(int width, int height)
 		glFrustum(-2.0, 2.0, -2.0, 2.0, 1.0, wievDistance);
 	}
 }
-void projectionPerspective(int width, int height)
+void ProjectionPerspective(int width, int height)
 {
 	GLdouble aspect = 1;
 	if (height > 0) {
@@ -493,12 +493,12 @@ void Reshape(int width, int height)
 
 	if (frustum == activeProjection)
 	{
-		projectionFrustrum(width, height);
+		ProjectionFrustrum(width, height);
 		glTranslatef(0, 0, -3);
 	}
 	else if (perspective == activeProjection)
 	{
-		projectionPerspective(width, height);
+		ProjectionPerspective(width, height);
 		glTranslatef(0, 0, -3);
 	}
 	Display();
