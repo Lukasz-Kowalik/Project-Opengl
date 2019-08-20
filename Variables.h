@@ -46,8 +46,8 @@ GLfloat light0_position[] = { 0,1.0f, 2, 0.5f };
 GLfloat light0_direction[] = { 0,1,0 };
 
 lights light1Status = L1OFF;
-GLfloat light1_positionMorning[] = { 0.1f, 0.1f, 0.1f, 1.0f };
-GLfloat light1_positionEvning[] = { 0.5f, 0.5f, 0.5f,1.0f };
+GLfloat light1_positionMorning[] = { 2.0f, 0.1f, 0.1f, 1.0f };
+GLfloat light1_positionEvning[] = { -2.0f, 0.5f, 0.5f,1.0f };
 GLfloat light1_positionMidday[] = { 1.0f, 1.0f, 1.0f,1.0f };
 GLfloat *light1_position= light1_positionMidday;
 
