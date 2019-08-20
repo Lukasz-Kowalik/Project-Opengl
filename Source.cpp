@@ -6,7 +6,7 @@
 #include "stdafx.h"
 #include "Variables.h"
 
-void TurnOnLight0()
+void SetLight0()
 {
 	glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
 	glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, light0_direction);
@@ -16,7 +16,7 @@ void TurnOnLight0()
 	glpMakeShadowMatrix(vPoints, light0_position, ShadowMatrixForLight0);
 	glpMakeShadowMatrix(vPoints, light0_position, ShadowMatrixForLight1AndLight2);
 }
-void TurnOnLight1()
+void SetLight1()
 {
 	glLightfv(GL_LIGHT1, GL_AMBIENT, light1_ambient);
 	glLightfv(GL_LIGHT1, GL_DIFFUSE, light1_diffuse);
@@ -431,8 +431,8 @@ void DrawScene() {
 	DrawCar();
 	DrawStreetLights();
 
-	TurnOnLight0();
-	TurnOnLight1();
+	SetLight0();
+	SetLight1();
 
 	glDisable(GL_COLOR_MATERIAL);
 	glDisable(GL_BLEND);
