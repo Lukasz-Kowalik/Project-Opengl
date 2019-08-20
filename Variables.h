@@ -59,6 +59,11 @@ GLfloat directioMorning[] = { 3,-2,-1 };
 GLfloat directioMidday[] = { 0,0,-1 };
 GLfloat directioEvning[] = { -2,1,-3};
 
+GLfloat ambientMidday[] = {1.0f,1.0f,1.0f,1.0f};
+GLfloat ambientMorning[] = { 0.2f,0.2f,0.2f,1.0f};
+GLfloat ambientEavning[] = { 0.5f,0.5f,0.5f,1.0f};
+
+
 GLfloat *light1_direction=directioMidday;
 GLfloat *light1_specular= middayLight;
 GLfloat *light1_diffuse= middayLight;
@@ -75,16 +80,6 @@ GLPVector3 vPoints[3] = {
 	{-1.0f,-1.0f,-1.5f},
 	{1.0f ,-1.0f,-1.5f},
 	{0.0f ,-1.0f, -3.0f}
-};
-GLPVector3 vPoints2[3] = {
-	{0.0f, -1.5f,  0.0f},
-	{10.0f, -1.5f,  0.0f},
-	{5.0f, -1.5f, -5.0f}
-};
-GLPVector3 bezCienia[3] = {
-	{0.0f, -50.5f,  0.0f},
-	{10.0f, -50.5f,  0.0f},
-	{ 5.0f, -50.5f, -5.0f}
 };
 
 //camera
