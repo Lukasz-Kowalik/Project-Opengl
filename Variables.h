@@ -149,7 +149,7 @@ const char* Info = R"(
 				-> k - zwieksza skupienie reflektora
 				-> l - zmniejsza skupienie reflektora
 
-						   -Podreczne menu-
+						-Podreczne menu-
 		  		-> Skalowanie obrazu:
 					-> Cale okno
 					-> Proporcjonalne

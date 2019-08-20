@@ -6,7 +6,6 @@
 #include "stdafx.h"
 #include "Variables.h"
 
-
 void TurnOnLight0()
 {
 	glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
@@ -840,7 +839,7 @@ void ShowControls(bool isShown = true)
 		return;
 	}
 	FreeConsole();
-	}
+}
 int main(int argc, char* argv[])
 {
 	ShowControls();
