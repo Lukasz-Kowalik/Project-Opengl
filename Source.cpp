@@ -850,7 +850,7 @@ int main(int argc, char* argv[])
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-	// utworzenie glownego okna programu
+
 	glutCreateWindow("Projekt £ukasz Kowalik");
 	glpInitFrame(&frameCamera);
 	TextureLoad();
