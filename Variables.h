@@ -40,7 +40,6 @@ enum lights {
 	L1OFF
 };
 
-
 lights light0Status = L0OFF;
 GLfloat light0_position[] = { 0,1.0f, 2, 0.5f };
 GLfloat light0_direction[] = { 0,1,0 };
@@ -62,7 +61,6 @@ GLfloat directioEvning[] = { -2,1,-3};
 GLfloat ambientMidday[] = {1.0f,1.0f,1.0f,1.0f};
 GLfloat ambientMorning[] = { 0.2f,0.2f,0.2f,1.0f};
 GLfloat ambientEavning[] = { 0.5f,0.5f,0.5f,1.0f};
-
 
 GLfloat *light1_direction=directioMidday;
 GLfloat *light1_specular= middayLight;
